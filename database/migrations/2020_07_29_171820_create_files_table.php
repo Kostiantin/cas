@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCertificatesTable extends Migration
+class CreateFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,13 @@ class CreateCertificatesTable extends Migration
      */
     public function up()
     {
-
-        Schema::create('certificates', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('files', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->string('name', 255);
-            $table->string('sub-title', 255);
-            $table->text('description');
-            $table->integer('user_id')->unsigned();
+            $table->string('fileable_type');
+            $table->integer('fileable_id');
             $table->timestamps();
         });
-
     }
 
     /**
@@ -32,6 +29,6 @@ class CreateCertificatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('certificates');
+        Schema::dropIfExists('files');
     }
 }
