@@ -16,6 +16,7 @@ class CreateSequencesTable extends Migration
         Schema::create('sequences', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('certificate_id')->unsigned();
+            $table->string('title', 255);
             $table->timestamps();
         });
     }
