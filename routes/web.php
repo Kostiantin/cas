@@ -34,4 +34,13 @@ Route::prefix('admin')->group(function() {
 
     Route::get('/logout', 'Auth\AdminLoginController@logoutAdmin')->name('admin.logout');
 
+
+    //CRUD on admin area
+    Route::resource('/module', 'ModuleController');
+
+    Route::resource('/course', 'CourseController');
+
+    Route::resource('/certificate', 'CertificateController');
+
 });
+
