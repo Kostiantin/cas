@@ -75,7 +75,7 @@
         </div>
 
     </div>
-@include('footer')
+@include('admin_footer')
 
 @yield('custom_js')
 </body>

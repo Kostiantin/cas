@@ -31,3 +31,9 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     el: '#app'
 });
+
+/******** REMOVE 'ARE YOU SURE' CONFIRMATION *********/
+$('.sbmt-delete-form').submit(function() {
+    var c = confirm("Are you sure?");
+    return c;
+});

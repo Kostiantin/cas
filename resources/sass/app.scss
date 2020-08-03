@@ -8,7 +8,45 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+@import 'node_modules/font-awesome/scss/font-awesome.scss';
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+.main-content-block {
+  margin-top: 40px;
+}
+.m-actions .fa-times {
+  color: #c51f1a;
+}
+.m-actions .btn {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
+.m-actions .fa {
+  margin-right: 10px;
+}
+.m-actions .fa-pencil-square {
+  color: #38c172;
+}
+.m-actions .fa-eye {
+  color: #6cb2eb;
+  font-size: 16px;
+}
+.mt-20 {
+  margin-top: 20px;
+}
+.mt-30 {
+  margin-top: 30px;
+}
+.mt-40 {
+  margin-top: 40px;
+}
+.mb-40 {
+  margin-bottom: 40px;
+}
+.r-actions {
+
 }
