@@ -55,7 +55,7 @@ class ModuleController extends Controller
         // if connections to sequences were done, also add them to table sequence_to_module
 
 
-        return redirect()->route('module.index')
+        return redirect()->route('modules.index')
             ->with('success','Module created successfully.');
     }
 
@@ -100,7 +100,7 @@ class ModuleController extends Controller
 
         // if connections to sequences were done, also add them to table sequence_to_module
 
-        return redirect()->route('module.index')
+        return redirect()->route('modules.index')
             ->with('success','Module updated successfully');
     }
 
@@ -114,7 +114,7 @@ class ModuleController extends Controller
     {
         $module->delete();
 
-        return redirect()->route('module.index')
+        return redirect()->route('modules.index')
             ->with('success','Module deleted successfully');
     }
 }

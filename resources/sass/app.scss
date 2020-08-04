@@ -10,6 +10,27 @@
 
 @import 'node_modules/font-awesome/scss/font-awesome.scss';
 
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+  border-color: rgba(126, 239, 104, 0.8);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);
+  outline: 0 none;
+}
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -18,15 +39,24 @@
   margin-top: 40px;
 }
 .m-actions .fa-times {
-  color: #c51f1a;
+  color: #212529;
+}
+.m-actions .btn, .m-actions .btn:active, .m-actions .btn:focus, , .m-actions .btn:hover {
+  padding: 0!important;
+  border: none!important;
+  background-color: transparent!important;
+  outline: none!important;
+}
+.close-modal, .close-modal:focus, .close-modal:active {
+  border: none!important;
+  background-color: transparent!important;
+  outline: none!important;
 }
 .m-actions .btn {
-  padding: 0;
-  border: none;
-  background-color: transparent;
-}
-.m-actions .fa {
   margin-right: 10px;
+}
+.m-actions .btn:last-child {
+  margin-right: 0;
 }
 .m-actions .fa-pencil-square {
   color: #38c172;
@@ -34,6 +64,10 @@
 .m-actions .fa-eye {
   color: #6cb2eb;
   font-size: 16px;
+}
+.m-actions .fa-times {
+  font-size: 16px;
+  margin-right: 0;
 }
 .mt-20 {
   margin-top: 20px;
@@ -49,4 +83,15 @@
 }
 .r-actions {
 
+}
+.login-container {
+  height: 500px;
+}
+#bulk_all {
+  position: relative;
+  top: 2px;
+}
+.row-head {
+  border-bottom: 1px solid #212529;
+  padding-bottom: 10px;
 }

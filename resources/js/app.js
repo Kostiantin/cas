@@ -37,3 +37,73 @@ $('.sbmt-delete-form').submit(function() {
     var c = confirm("Are you sure?");
     return c;
 });
+
+/************ PREVENT DEFAULT LINKS************/
+$('.prevent-default-link').click(function(e){
+    e.preventDefault();
+});
+
+/*************** BULK CHECKBOX CLICK *****************/
+$('#bulk_all').click(function(){
+    var all_bulk_checkboxes = $(this).parents('.rows-list:first').find('.bulk_check');
+    if ($(this).is(":checked")) {
+        all_bulk_checkboxes.each(function(){
+            $(this).prop('checked', true);
+        });
+    }
+    else {
+        all_bulk_checkboxes.each(function(){
+            $(this).prop('checked', false);
+        });
+    }
+
+});
+
+/*************** UNIVERSAL MODAL *****************/
+$('#universalModal').on('show.bs.modal', function (event) {
+
+    var button = $(event.relatedTarget);
+    var _title = button.data('title');
+    var _route = button.data('route');
+    var _action = button.data('action');
+
+    var modal = $(this);
+    modal.find('.modal-title').text(_title);
+    modal.find('.modal-body').html('<div class="text-center"><div class="spinner-border text-success"></div></div>');
+
+    if (_action == 'create' || _action == 'edit') {
+        modal.find('.btn-edit').hide();
+        modal.find('.btn-save').show();
+    }
+    else {
+        modal.find('.btn-edit').show();
+        modal.find('.btn-save').hide();
+    }
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

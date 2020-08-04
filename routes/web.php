@@ -36,11 +36,11 @@ Route::prefix('admin')->group(function() {
 
 
     //CRUD on admin area
-    Route::resource('/module', 'ModuleController');
+    Route::resource('/modules', 'ModuleController');
 
-    Route::resource('/course', 'CourseController');
+    Route::resource('/courses', 'CourseController');
 
-    Route::resource('/certificate', 'CertificateController');
+    Route::resource('/certificates', 'CertificateController');
 
 });
 
