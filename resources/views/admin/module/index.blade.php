@@ -19,7 +19,7 @@
                     </div>
                 </div>
 
-                <a class="btn btn-success" href="{{ route('modules.create') }}" data-toggle="modal" data-target="#universalModal" data-route="{{ route('modules.create') }}" data-action="create" data-title="Create Module"> Create Module</a>
+                <a class="btn btn-success" href="{{ route('modules.create') }}" data-toggle="modal" data-target="#universalModal" data-route="{{ route('modules.create') }}" data-action="create" data-title="Create Module" data-elemid="" data-method="GET"> Create Module</a>
             </div>
         </div>
     </div>
@@ -51,11 +51,11 @@
 
                     <form action="{{ route('modules.destroy',$module->id) }}" method="POST" class="sbmt-delete-form">
 
-                        <a class="btn prevent-default-link" href="{{ route('modules.show',$module->id) }}" data-toggle="modal" data-target="#universalModal" data-route="{{route('modules.show',$module->id)}}" data-action="show" data-title="Module {{ $module->name }}">
+                        <a class="btn prevent-default-link" href="{{ route('modules.show',$module->id) }}" data-toggle="modal" data-target="#universalModal" data-route="{{route('modules.show',$module->id)}}" data-action="show" data-title="Module {{ $module->name }}" data-elemid="{{$module->id}}" >
                             <i class="fa fa-eye" aria-hidden="true"></i>
                         </a>
 
-                        <a class="btn prevent-default-link" href="{{ route('modules.edit',$module->id) }}" data-toggle="modal" data-target="#universalModal" data-route="{{route('modules.edit',$module->id)}}" data-action="edit" data-title="Edit Module {{ $module->name }}">
+                        <a class="btn prevent-default-link" href="{{ route('modules.edit',$module->id) }}" data-toggle="modal" data-target="#universalModal" data-route="{{route('modules.edit',$module->id)}}" data-action="edit" data-title="Edit Module {{ $module->name }}" data-elemid="{{$module->id}}" data-method="GET">
                             <i class="fa fa-pencil-square" aria-hidden="true"></i>
                         </a>
 
@@ -63,6 +63,7 @@
                         @method('DELETE')
 
                         <button type="submit" class="btn "><i class="fa fa-times" aria-hidden="true"></i></button>
+
                     </form>
 
                 </div>

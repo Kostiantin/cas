@@ -62,22 +62,67 @@ $('#bulk_all').click(function(){
 /*************** UNIVERSAL MODAL *****************/
 $('#universalModal').on('show.bs.modal', function (event) {
 
+    // empty old modal data holders
+    $('#elem-id-holder').val('');
+
+    // use target button to get data from it
     var button = $(event.relatedTarget);
     var _title = button.data('title');
     var _route = button.data('route');
     var _action = button.data('action');
+    var _elemid = button.data('elemid');
+    var _method = 'GET';
 
+    if (button.data('method')) {
+        _method = button.data('method');
+    }
+
+    var dataObj = {};
+
+    // assign title and show loading spinner
     var modal = $(this);
     modal.find('.modal-title').text(_title);
     modal.find('.modal-body').html('<div class="text-center"><div class="spinner-border text-success"></div></div>');
 
+    // choose what modal footer buttons will be show or hidden
     if (_action == 'create' || _action == 'edit') {
         modal.find('.btn-edit').hide();
         modal.find('.btn-save').show();
+
+
+        // ADD SAVE BUTTON BEHAVIOUR
+
+
     }
     else {
         modal.find('.btn-edit').show();
         modal.find('.btn-save').hide();
+    }
+
+    // collect object to send
+
+    if (_elemid) {
+        dataObj.id = _elemid;
+        $('#elem-id-holder').val(_elemid);
+    }
+
+    // sending ajax request based on received
+    if (typeof _route != 'undefined' && _route != null && _route != '') {
+
+        $.ajax({
+            url: _route,
+            data: dataObj,
+            success: function(data) {
+
+                setTimeout(function(){
+                    modal.find('.modal-body').html(data);
+                }, 400);
+
+            }
+        }).done(function() {
+
+        });
+
     }
 
 });

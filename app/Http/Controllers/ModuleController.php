@@ -32,7 +32,8 @@ class ModuleController extends Controller
      */
     public function create()
     {
-        return view('admin.module.create');
+        $isEditMode = true;
+        return view('admin.module.show', compact('isEditMode'));
     }
 
     /**
@@ -65,9 +66,20 @@ class ModuleController extends Controller
      * @param  \App\Module  $module
      * @return \Illuminate\Http\Response
      */
-    public function show(Module $module)
+    public function show(Request $request)
     {
-        return view('admin.module.show',compact('module'));
+
+        if ($request->ajax()) {
+
+            if (!empty($request->id)) {
+
+                $module = Module::find($request->id);
+
+            }
+        }
+
+        return view('admin.module.show', compact('module'));
+
     }
 
     /**
@@ -76,9 +88,20 @@ class ModuleController extends Controller
      * @param  \App\Module  $module
      * @return \Illuminate\Http\Response
      */
-    public function edit(Module $module)
+    public function edit(Request $request)
     {
-        return view('admin.module.edit',compact('module'));
+        $isEditMode = true;
+
+        if ($request->ajax()) {
+
+            if (!empty($request->id)) {
+
+                $module = Module::find($request->id);
+
+            }
+        }
+
+        return view('admin.module.show', compact('module','isEditMode'));
     }
 
     /**
