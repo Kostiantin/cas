@@ -15,6 +15,7 @@
 
             </div>
             <div class="modal-footer">
+                <span class="success-message"> </span>
 
                 <button type="button" class="btn btn-primary btn-edit">Edit</button>
                 <button type="button" class="btn btn-primary btn-save">Save</button>

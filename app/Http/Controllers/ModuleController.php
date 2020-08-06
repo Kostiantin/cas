@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Module;
 use Illuminate\Http\Request;
+use Validator;
 
 class ModuleController extends Controller
 {
@@ -44,20 +45,25 @@ class ModuleController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+
+        $validator = Validator::make($request->all(),[
             'name' => 'required|max:255',
             'code' => 'required|max:255',
             'description' => 'required',
         ]);
 
-        Module::create($request->all());
+        if ($validator->passes()) {
 
+            Module::updateOrCreate(['id' => $request->id], ['name' => $request->name, 'description' => $request->description, 'code' => $request->code]);
 
-        // if connections to sequences were done, also add them to table sequence_to_module
+            // if connections to sequences were done, also add them to table sequence_to_module
 
+            return response()->json(['success' => 'New module was added']);
+        }
+        else {
+            return response()->json(['error' => $validator->errors()]);
+        }
 
-        return redirect()->route('modules.index')
-            ->with('success','Module created successfully.');
     }
 
     /**
@@ -111,7 +117,7 @@ class ModuleController extends Controller
      * @param  \App\Module  $module
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Module $module)
+    /*public function update(Request $request, Module $module)
     {
         $request->validate([
             'name' => 'required|max:255',
@@ -125,7 +131,7 @@ class ModuleController extends Controller
 
         return redirect()->route('modules.index')
             ->with('success','Module updated successfully');
-    }
+    }*/
 
     /**
      * Remove the specified resource from storage.

@@ -43,6 +43,139 @@ $('.prevent-default-link').click(function(e){
     e.preventDefault();
 });
 
+
+/*************** UNIVERSAL MODAL *****************/
+$('#universalModal').on('show.bs.modal', function (event) {
+
+    // add csrf header to all possible ajax requests
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    // empty old modal data holders
+    $('#elem-id-holder').val('');
+    $('.success-message').text('');
+
+    // use target button to get data from it
+    var button = $(event.relatedTarget);
+    var _title = button.data('title');
+    var _route = button.data('route');
+    var _action = button.data('action');
+    var _elemid = button.data('elemid');
+    var _submitroute = button.data('submitroute');
+    var _method = 'GET';
+
+    if (button.data('method')) {
+        _method = button.data('method');
+    }
+
+    var dataObj = {};
+
+    // collect object to send
+    if (_elemid) {
+        dataObj.id = _elemid;
+        $('#elem-id-holder').val(_elemid);
+    }
+
+    // assign title and show loading spinner
+    var modal = $(this);
+    modal.find('.modal-title').text(_title);
+    modal.find('.modal-body').html('<div class="text-center"><div class="spinner-border text-success"></div></div>');
+
+    // choose what modal footer buttons will be show or hidden
+    if (_action == 'create' || _action == 'edit') {
+
+        modal.find('.btn-edit').hide();
+        modal.find('.btn-save').show();
+
+        // ADD SAVE BUTTON BEHAVIOUR
+        $(document).off('click', '#universalModal .btn-save');
+        $(document).on('click', '#universalModal .btn-save', function(e) {
+
+            // at first we need to remove all prev validation errors and red borders from inputs
+            $('#universalModal form input, #universalModal form textarea').removeClass('errorInput');
+            $('#universalModal form .err-container').text('');
+
+            var _serializedForm = $('#universalModal form').serialize();
+
+            // send submitted create / edit form
+            if (typeof _serializedForm != 'undefined' && _serializedForm != '' && _serializedForm != null) {
+
+                $.ajax({
+                    url: _submitroute,
+                    method: 'POST',
+                    data: _serializedForm,
+                    success: function(data) {
+
+                        if (typeof data.success != 'undefined' && data.success != null && data.success != '') {
+
+                            $('.success-message').text(data.success);
+
+                            setTimeout(function(){
+                                location.reload();
+                            }, 1000);
+
+                        }
+                        if (typeof data.error != 'undefined') {
+
+                            for (var errFieldName in data.error) {
+                                //console.log(data.error[errFieldName]);
+                                $('#universalModal form').find('[name="'+errFieldName+'"]').addClass('errorInput');
+                                $('#universalModal form').find('[name="'+errFieldName+'"]').parents('.column-parent:first').find('.err-container').text(data.error[errFieldName]);
+                            }
+                        }
+
+                    }
+                });
+
+            }
+        });
+
+    }
+    else {
+        modal.find('.btn-edit').show();
+        modal.find('.btn-save').hide();
+
+        $(document).off('click', '#universalModal .btn-edit');
+        $(document).on('click', '#universalModal .btn-edit', function(e) {
+            console.log('edit-clicked');
+            $('#universalModal .close.close-modal').click();
+            setTimeout(function() {
+                console.log(button);
+                $(button).parents('form:first').find('.edit-elem').click();
+            }, 300);
+
+        });
+
+    }
+
+
+
+    // sending ajax request to show based on _route
+
+    if (typeof _route != 'undefined' && _route != null && _route != '') {
+
+        $.ajax({
+            url: _route,
+            data: dataObj,
+            success: function(data) {
+
+                setTimeout(function(){
+                    modal.find('.modal-body').html(data);
+                }, 400);
+
+            }
+        });
+
+    }
+
+});
+
+
+/* BULK FUNCTIONS*/
+
 /*************** BULK CHECKBOX CLICK *****************/
 $('#bulk_all').click(function(){
     var all_bulk_checkboxes = $(this).parents('.rows-list:first').find('.bulk_check');
@@ -59,80 +192,10 @@ $('#bulk_all').click(function(){
 
 });
 
-/*************** UNIVERSAL MODAL *****************/
-$('#universalModal').on('show.bs.modal', function (event) {
-
-    // empty old modal data holders
-    $('#elem-id-holder').val('');
-
-    // use target button to get data from it
-    var button = $(event.relatedTarget);
-    var _title = button.data('title');
-    var _route = button.data('route');
-    var _action = button.data('action');
-    var _elemid = button.data('elemid');
-    var _method = 'GET';
-
-    if (button.data('method')) {
-        _method = button.data('method');
-    }
-
-    var dataObj = {};
-
-    // assign title and show loading spinner
-    var modal = $(this);
-    modal.find('.modal-title').text(_title);
-    modal.find('.modal-body').html('<div class="text-center"><div class="spinner-border text-success"></div></div>');
-
-    // choose what modal footer buttons will be show or hidden
-    if (_action == 'create' || _action == 'edit') {
-        modal.find('.btn-edit').hide();
-        modal.find('.btn-save').show();
-
-
-        // ADD SAVE BUTTON BEHAVIOUR
-
-
-    }
-    else {
-        modal.find('.btn-edit').show();
-        modal.find('.btn-save').hide();
-    }
-
-    // collect object to send
-
-    if (_elemid) {
-        dataObj.id = _elemid;
-        $('#elem-id-holder').val(_elemid);
-    }
-
-    // sending ajax request based on received
-    if (typeof _route != 'undefined' && _route != null && _route != '') {
-
-        $.ajax({
-            url: _route,
-            data: dataObj,
-            success: function(data) {
-
-                setTimeout(function(){
-                    modal.find('.modal-body').html(data);
-                }, 400);
-
-            }
-        }).done(function() {
-
-        });
-
-    }
-
+/****************** BULK DELETE ********************/
+$('#delete_chosen').click(function() {
+    console.log('delete chosen');
 });
-
-
-
-
-
-
-
 
 
 

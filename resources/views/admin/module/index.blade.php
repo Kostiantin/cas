@@ -13,23 +13,18 @@
                         Bulk Functions
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="javascript:void(0);" id="delete_chosen">Delete Chosen</a>
                         <a class="dropdown-item" href="#">Another action</a>
                         <a class="dropdown-item" href="#">Something else here</a>
                     </div>
                 </div>
 
-                <a class="btn btn-success" href="{{ route('modules.create') }}" data-toggle="modal" data-target="#universalModal" data-route="{{ route('modules.create') }}" data-action="create" data-title="Create Module" data-elemid="" data-method="GET"> Create Module</a>
+                <a class="btn btn-success" href="{{ route('modules.create') }}" data-toggle="modal" data-target="#universalModal" data-route="{{ route('modules.create') }}" data-action="create" data-title="Create Module" data-elemid="" data-method="GET" data-submitroute="{{route('modules.store')}}"> Create Module</a>
             </div>
         </div>
     </div>
 
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
-    @endif
-
+  @if (!empty($modules))
     <div class="rows-list">
         <div class="row row-head">
             <div class="col-md-1"><strong>No</strong></div>
@@ -45,17 +40,17 @@
                 <div class="col-md-1"><strong>#{{ $module->id }}</strong></div>
                 <div class="col-md-3">{{ $module->name }}</div>
                 <div class="col-md-2">{{ $module->code }}</div>
-                <div class="col-md-3">{{ $module->description }}</div>
+                <div class="col-md-3">{{ \Illuminate\Support\Str::limit($module->description, 100, '...') }}</div>
                 <div class="col-md-1"><input class="bulk_check" type="checkbox" name="bulk[{{$module->id}}]" id="bulk_{{$module->id}}" value="1"/></div>
                 <div class="col-md-2 m-actions text-center">
 
                     <form action="{{ route('modules.destroy',$module->id) }}" method="POST" class="sbmt-delete-form">
 
-                        <a class="btn prevent-default-link" href="{{ route('modules.show',$module->id) }}" data-toggle="modal" data-target="#universalModal" data-route="{{route('modules.show',$module->id)}}" data-action="show" data-title="Module {{ $module->name }}" data-elemid="{{$module->id}}" >
+                        <a class="btn prevent-default-link show-elem" href="{{ route('modules.show',$module->id) }}" data-toggle="modal" data-target="#universalModal" data-route="{{route('modules.show',$module->id)}}" data-action="show" data-title="Module {{ $module->name }}" data-elemid="{{$module->id}}" >
                             <i class="fa fa-eye" aria-hidden="true"></i>
                         </a>
 
-                        <a class="btn prevent-default-link" href="{{ route('modules.edit',$module->id) }}" data-toggle="modal" data-target="#universalModal" data-route="{{route('modules.edit',$module->id)}}" data-action="edit" data-title="Edit Module {{ $module->name }}" data-elemid="{{$module->id}}" data-method="GET">
+                        <a class="btn prevent-default-link edit-elem" href="{{ route('modules.edit',$module->id) }}" data-toggle="modal" data-target="#universalModal" data-route="{{route('modules.edit',$module->id)}}" data-action="edit" data-title="Edit Module {{ $module->name }}" data-elemid="{{$module->id}}" data-method="GET" data-submitroute="{{route('modules.store')}}">
                             <i class="fa fa-pencil-square" aria-hidden="true"></i>
                         </a>
 
@@ -71,6 +66,9 @@
 
         @endforeach
     </div>
+  @else
+    No Modules Yet
+  @endif
 </div>
 
 @include('universal_modal')

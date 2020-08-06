@@ -1,5 +1,10 @@
-@if (!empty($module->id))
-<form action="{{ route('modules.store',$module->id) }}">
+@if (!empty($isEditMode))
+<form action="{{ route('modules.store') }}">
+
+    @if (!empty($module))
+        <input type="hidden" name="id" value="{{$module->id}}"/>
+    @endif
+
 @endif
     <div class="elemContainer">
         <div class="row">
@@ -11,9 +16,11 @@
                     <div class="column-parent">
                         @if (!empty($isEditMode))
                             <input type="text" class="form-control" name="name" value="@if (!empty($module->name)){{ $module->name }} @endif" />
+                            <div class="err-container"></div>
                         @else
                             @if (!empty($module->name)){{ $module->name }} @endif
                         @endif
+
                     </div>
 
 
@@ -26,9 +33,11 @@
                     <div class="column-parent">
                         @if (!empty($isEditMode))
                             <input type="text" class="form-control" name="code" value="@if (!empty($module->code)){{ $module->code }} @endif" />
+                            <div class="err-container"></div>
                         @else
                             @if (!empty($module->code)){{ $module->code }} @endif
                         @endif
+
                     </div>
 
                 </div>
@@ -40,15 +49,17 @@
                     <div class="column-parent">
                         @if (!empty($isEditMode))
                             <textarea class="form-control" name="description" rows="3">@if (!empty($module->description)){{ $module->description }} @endif</textarea>
+                            <div class="err-container"></div>
                         @else
                             @if (!empty($module->description)){{ $module->description }} @endif
                         @endif
+
                     </div>
 
                 </div>
             </div>
         </div>
     </div>
-@if (!empty($module->id))
+@if (!empty($isEditMode))
 </form>
 @endif
