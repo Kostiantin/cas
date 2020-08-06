@@ -14076,3 +14076,25 @@ input[type=color]:focus,
   padding-bottom: 10px;
 }
 
+.errorInput {
+  border-color: #b91d19;
+}
+
+.err-container {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: #b91d19;
+  font-size: 11px;
+  height: 30px;
+}
+
+#universalModal .form-group {
+  margin-bottom: 0px;
+}
+
+.success-message {
+  font-size: 11px;
+  color: #04a322;
+  margin-right: 15px;
+}
+
