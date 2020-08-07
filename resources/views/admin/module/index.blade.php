@@ -13,9 +13,10 @@
                         Bulk Functions
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="javascript:void(0);" id="delete_chosen">Delete Chosen</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+
+                        <a class="dropdown-item" href="javascript:void(0);" id="delete_chosen" data-removeelementsname="modules" data-removeelementsurl="{{route('modules.bulk_remove')}}">Delete Modules</a>
+                        <a class="dropdown-item" href="#" id="connect_chosen" data-connecturl="">Connect Modules</a>
+
                     </div>
                 </div>
 
@@ -40,7 +41,7 @@
                 <div class="col-md-1"><strong>#{{ $module->id }}</strong></div>
                 <div class="col-md-3">{{ $module->name }}</div>
                 <div class="col-md-2">{{ $module->code }}</div>
-                <div class="col-md-3">{{ \Illuminate\Support\Str::limit($module->description, 100, '...') }}</div>
+                <div class="col-md-3">{{ \Illuminate\Support\Str::limit($module->description, 40, '...') }}</div>
                 <div class="col-md-1"><input class="bulk_check" type="checkbox" name="bulk[{{$module->id}}]" id="bulk_{{$module->id}}" value="1"/></div>
                 <div class="col-md-2 m-actions text-center">
 

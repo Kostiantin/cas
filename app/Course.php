@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Sequence extends Model
+class Course extends Model
 {
     
     protected $fillable = [
-        'certificate_id',
+        'title', 'description'
     ];
 
     public function certificate()

@@ -110,28 +110,7 @@ class ModuleController extends Controller
         return view('admin.module.show', compact('module','isEditMode'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Module  $module
-     * @return \Illuminate\Http\Response
-     */
-    /*public function update(Request $request, Module $module)
-    {
-        $request->validate([
-            'name' => 'required|max:255',
-            'code' => 'required|max:255',
-            'description' => 'required',
-        ]);
 
-        $module->update($request->all());
-
-        // if connections to sequences were done, also add them to table sequence_to_module
-
-        return redirect()->route('modules.index')
-            ->with('success','Module updated successfully');
-    }*/
 
     /**
      * Remove the specified resource from storage.
@@ -145,5 +124,19 @@ class ModuleController extends Controller
 
         return redirect()->route('modules.index')
             ->with('success','Module deleted successfully');
+    }
+
+    public function bulk_remove(Request $request) {
+
+        if ($request->removeElementsName == 'modules' && !empty($request->removeElementsIds)) {
+
+            foreach($request->removeElementsIds as $mId){
+                $module = Module::find($mId);
+                $module->delete();
+            }
+
+            return response()->json(['success' => 'Records were deleted']);
+        }
+
     }
 }

@@ -37,8 +37,11 @@ Route::prefix('admin')->group(function() {
 
     //CRUD on admin area
     Route::resource('/modules', 'ModuleController');
+    Route::post('/modules/bulk_remove', 'ModuleController@bulk_remove')->name('modules.bulk_remove');
+
 
     Route::resource('/courses', 'CourseController');
+    Route::post('/courses/bulk_remove', 'CourseController@bulk_remove')->name('courses.bulk_remove');
 
     Route::resource('/certificates', 'CertificateController');
 

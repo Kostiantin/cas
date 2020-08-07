@@ -49574,17 +49574,17 @@ $('.sbmt-delete-form').submit(function () {
 
 $('.prevent-default-link').click(function (e) {
   e.preventDefault();
+}); // add csrf header to all possible ajax requests
+
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
 });
 /*************** UNIVERSAL MODAL *****************/
 
 $('#universalModal').on('show.bs.modal', function (event) {
-  // add csrf header to all possible ajax requests
-  $.ajaxSetup({
-    headers: {
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-  }); // empty old modal data holders
-
+  // empty old modal data holders
   $('#elem-id-holder').val('');
   $('.success-message').text(''); // use target button to get data from it
 
@@ -49702,7 +49702,38 @@ $('#bulk_all').click(function () {
 /****************** BULK DELETE ********************/
 
 $('#delete_chosen').click(function () {
-  console.log('delete chosen');
+  var removeElementsName = $(this).data('removeelementsname');
+  var removeElementsUrl = $(this).data('removeelementsurl');
+  console.log('removeElementsName');
+  console.log(removeElementsName);
+  var c = confirm("Are you sure?");
+
+  if (c == true) {
+    if ($('.bulk_check:checked').length > 0) {
+      console.log('checkeddd');
+      var removeElementsIds = '';
+      $('.bulk_check:checked').each(function () {
+        var _entity_id = $(this).attr('id').replace('bulk_', '');
+
+        removeElementsIds += (removeElementsIds == '' ? '' : '&') + 'removeElementsIds[]=' + _entity_id;
+      });
+
+      var _finalString = 'removeElementsName=' + removeElementsName + '&' + removeElementsIds;
+
+      $.ajax({
+        url: removeElementsUrl,
+        method: 'POST',
+        data: _finalString,
+        success: function success(data) {
+          if (typeof data.success != 'undefined' && data.success != null && data.success != '') {
+            $('.bulk_check:checked').each(function () {
+              $(this).parents('.r-actions:first').remove();
+            });
+          }
+        }
+      });
+    }
+  }
 });
 
 /***/ }),

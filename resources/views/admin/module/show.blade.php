@@ -1,8 +1,8 @@
 @if (!empty($isEditMode))
-<form action="{{ route('modules.store') }}">
+<form action="{{ route('courses.store') }}">
 
-    @if (!empty($module))
-        <input type="hidden" name="id" value="{{$module->id}}"/>
+    @if (!empty($sequence))
+        <input type="hidden" name="id" value="{{$sequence->id}}"/>
     @endif
 
 @endif
@@ -15,10 +15,10 @@
 
                     <div class="column-parent">
                         @if (!empty($isEditMode))
-                            <input type="text" class="form-control" name="name" value="@if (!empty($module->name)){{ $module->name }} @endif" />
+                            <input type="text" class="form-control" name="name" value="@if (!empty($sequence->name)){{ $sequence->name }} @endif" />
                             <div class="err-container"></div>
                         @else
-                            @if (!empty($module->name)){{ $module->name }} @endif
+                            @if (!empty($sequence->name)){{ $sequence->name }} @endif
                         @endif
 
                     </div>
@@ -32,10 +32,10 @@
 
                     <div class="column-parent">
                         @if (!empty($isEditMode))
-                            <input type="text" class="form-control" name="code" value="@if (!empty($module->code)){{ $module->code }} @endif" />
+                            <input type="text" class="form-control" name="code" value="@if (!empty($sequence->code)){{ $sequence->code }} @endif" />
                             <div class="err-container"></div>
                         @else
-                            @if (!empty($module->code)){{ $module->code }} @endif
+                            @if (!empty($sequence->code)){{ $sequence->code }} @endif
                         @endif
 
                     </div>
@@ -48,10 +48,10 @@
 
                     <div class="column-parent">
                         @if (!empty($isEditMode))
-                            <textarea class="form-control" name="description" rows="3">@if (!empty($module->description)){{ $module->description }} @endif</textarea>
+                            <textarea class="form-control" name="description" rows="3">@if (!empty($sequence->description)){{ $sequence->description }} @endif</textarea>
                             <div class="err-container"></div>
                         @else
-                            @if (!empty($module->description)){{ $module->description }} @endif
+                            @if (!empty($sequence->description)){{ $sequence->description }} @endif
                         @endif
 
                     </div>

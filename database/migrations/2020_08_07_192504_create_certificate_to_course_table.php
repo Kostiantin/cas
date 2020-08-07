@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSequencesTable extends Migration
+class CreateCertificateToCourseTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateSequencesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sequences', function (Blueprint $table) {
+        Schema::create('certificate_to_course', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('certificate_id')->unsigned();
-            $table->string('title', 255);
+            $table->integer('course_id')->unsigned();
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateSequencesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sequences');
+        Schema::dropIfExists('certificate_to_course');
     }
 }
