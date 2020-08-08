@@ -14098,3 +14098,46 @@ input[type=color]:focus,
   margin-right: 15px;
 }
 
+.footer-container {
+  background-color: #009688;
+  margin-top: 40px;
+  color: #fff;
+}
+
+.footer-container a,
+.footer-container a:hover,
+.footer-container a:active,
+.footer-container a:focus {
+  color: #fff;
+}
+
+.footer-container .footer-copyright {
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+#app {
+  min-height: 520px;
+}
+
+nav.navbar.navbar-expand-md {
+  color: #fff;
+  background-color: #000 !important;
+}
+
+nav.navbar.navbar-expand-md a,
+nav.navbar.navbar-expand-md a:hover,
+.navbar-expand-md .navbar-nav .nav-link,
+.navbar-expand-md .navbar-nav .nav-link:hover,
+.navbar-expand-md .navbar-nav .nav-link:focus,
+.navbar-expand-md .navbar-nav .nav-link:active {
+  color: #fff;
+}
+
+@media (max-width: 480px) {
+  #app {
+    min-height: initial;
+  }
+}
+
