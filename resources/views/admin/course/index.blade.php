@@ -39,7 +39,7 @@
             <div class="row r-actions mt-20">
                 <div class="col-md-1"><strong>#{{ $course->id }}</strong></div>
                 <div class="col-md-4">{{ $course->title }}</div>
-                <div class="col-md-4">{{ \Illuminate\Support\Str::limit($course->description, 40, '...') }}</div>
+                <div class="col-md-4">{{ \Illuminate\Support\Str::limit($course->description, 100, '...') }}</div>
                 <div class="col-md-1"><input class="bulk_check" type="checkbox" name="bulk[{{$course->id}}]" id="bulk_{{$course->id}}" value="1"/></div>
                 <div class="col-md-2 m-actions text-center">
 

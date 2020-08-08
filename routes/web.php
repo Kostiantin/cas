@@ -44,6 +44,7 @@ Route::prefix('admin')->group(function() {
     Route::post('/courses/bulk_remove', 'CourseController@bulk_remove')->name('courses.bulk_remove');
 
     Route::resource('/certificates', 'CertificateController');
+    Route::post('/certificates/bulk_remove', 'CertificateController@bulk_remove')->name('certificates.bulk_remove');
 
 });
 

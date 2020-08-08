@@ -8,7 +8,7 @@ class Certificate extends Model
 {
 
     protected $fillable = [
-        'name', 'sub-title', 'description',
+        'title', 'sub_title', 'description',
     ];
 
     public function courses()
@@ -18,7 +18,7 @@ class Certificate extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class);
     }
 
     public function files()

@@ -15,4 +15,9 @@ class Course extends Model
     {
         return $this->belongsTo(Certificate::class);
     }
+
+    public function user()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }
