@@ -19,7 +19,6 @@ class CreateCertificatesTable extends Migration
             $table->string('name', 255);
             $table->string('sub-title', 255);
             $table->text('description');
-            $table->integer('user_id')->unsigned();
             $table->timestamps();
         });
 

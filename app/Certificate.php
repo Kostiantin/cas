@@ -8,12 +8,12 @@ class Certificate extends Model
 {
 
     protected $fillable = [
-        'name', 'sub-title', 'description', 'user_id',
+        'name', 'sub-title', 'description',
     ];
 
-    public function sequences()
+    public function courses()
     {
-        return $this->hasMany(Sequence::class);
+        return $this->hasMany(Course::class);
     }
 
     public function user()
