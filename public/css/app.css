@@ -14135,6 +14135,10 @@ nav.navbar.navbar-expand-md a:hover,
   color: #fff;
 }
 
+.navbar-nav li.nav-item .dropdown-menu a {
+  color: #000;
+}
+
 @media (max-width: 480px) {
   #app {
     min-height: initial;

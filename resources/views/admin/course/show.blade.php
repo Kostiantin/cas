@@ -1,5 +1,5 @@
 @if (!empty($isEditMode))
-<form action="{{ route('modules.store') }}">
+<form action="{{ route('courses.store') }}">
 
     @if (!empty($course))
         <input type="hidden" name="id" value="{{$course->id}}"/>

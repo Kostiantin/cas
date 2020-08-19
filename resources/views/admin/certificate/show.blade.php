@@ -1,5 +1,5 @@
 @if (!empty($isEditMode))
-<form action="{{ route('modules.store') }}">
+<form action="{{ route('certificates.store') }}">
 
     @if (!empty($certificate))
         <input type="hidden" name="id" value="{{$certificate->id}}"/>

@@ -1,8 +1,8 @@
 @if (!empty($isEditMode))
-<form action="{{ route('modules.store') }}">
+<form action="{{ route('settings.store') }}">
 
-    @if (!empty($module))
-        <input type="hidden" name="id" value="{{$module->id}}"/>
+    @if (!empty($setting))
+        <input type="hidden" name="id" value="{{$setting->id}}"/>
     @endif
 
 @endif
@@ -11,14 +11,14 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
 
-                    <strong>Name:</strong>
+                    <strong>{{ __('Name') }}:</strong>
 
                     <div class="column-parent">
                         @if (!empty($isEditMode))
-                            <input type="text" class="form-control" name="name" value="@if (!empty($module->name)){{ $module->name }} @endif" />
+                            <input type="text" class="form-control" name="name" value="@if (!empty($setting->name)){{ $setting->name }} @endif" />
                             <div class="err-container"></div>
                         @else
-                            @if (!empty($module->name)){{ $module->name }} @endif
+                            @if (!empty($setting->name)){{ $setting->name }} @endif
                         @endif
 
                     </div>
@@ -28,14 +28,14 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Code:</strong>
+                    <strong>{{ __('Value') }}:</strong>
 
                     <div class="column-parent">
                         @if (!empty($isEditMode))
-                            <input type="text" class="form-control" name="code" value="@if (!empty($module->code)){{ $module->code }} @endif" />
+                            <input type="text" class="form-control" name="value" value="@if (!empty($setting->value)){{ $setting->value }} @endif" />
                             <div class="err-container"></div>
                         @else
-                            @if (!empty($module->code)){{ $module->code }} @endif
+                            @if (!empty($setting->value)){{ $setting->value }} @endif
                         @endif
 
                     </div>
@@ -44,14 +44,14 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Description:</strong>
+                    <strong>{{ __('Description') }}:</strong>
 
                     <div class="column-parent">
                         @if (!empty($isEditMode))
-                            <textarea class="form-control" name="description" rows="3">@if (!empty($module->description)){{ $module->description }} @endif</textarea>
+                            <textarea class="form-control" name="description" rows="3">@if (!empty($setting->description)){{ $setting->description }} @endif</textarea>
                             <div class="err-container"></div>
                         @else
-                            @if (!empty($module->description)){{ $module->description }} @endif
+                            @if (!empty($setting->description)){{ $setting->description }} @endif
                         @endif
 
                     </div>

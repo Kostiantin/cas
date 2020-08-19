@@ -40,13 +40,16 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('modules.index') }}">{{ __('Modules') }}</a>
+                            <a class="nav-link" href="{{ route('certificates.index') }}">{{ __('Certificates') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('courses.index') }}">{{ __('Courses') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('certificates.index') }}">{{ __('Certificates') }}</a>
+                            <a class="nav-link" href="{{ route('modules.index') }}">{{ __('Modules') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('settings.index') }}">{{ __('Settings') }}</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -57,7 +60,7 @@
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
+                                   <span><i class="fa fa-sign-out" aria-hidden="true"></i> {{ __('Logout') }}</span>
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
