@@ -48,5 +48,8 @@ Route::prefix('admin')->group(function() {
 
     Route::resource('/settings', 'SettingController');
     Route::post('/settings/bulk_remove', 'SettingController@bulk_remove')->name('settings.bulk_remove');
+    
+    Route::resource('/lectures', 'LectureController');
+    Route::post('/lectures/bulk_remove', 'LectureController@bulk_remove')->name('lectures.bulk_remove');
 });
 
