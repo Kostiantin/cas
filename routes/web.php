@@ -51,5 +51,8 @@ Route::prefix('admin')->group(function() {
     
     Route::resource('/lectures', 'LectureController');
     Route::post('/lectures/bulk_remove', 'LectureController@bulk_remove')->name('lectures.bulk_remove');
+
+    Route::resource('/days', 'DayController');
+    Route::post('/days/bulk_remove', 'DayController@bulk_remove')->name('days.bulk_remove');
 });
 

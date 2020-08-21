@@ -197,16 +197,13 @@ $('#delete_chosen').click(function() {
     var removeElementsName = $(this).data('removeelementsname');
     var removeElementsUrl = $(this).data('removeelementsurl');
 
-    console.log('removeElementsName');
-    console.log(removeElementsName);
 
-    var c = confirm("Are you sure?");
+    if ($('.bulk_check:checked').length > 0) {
 
-    if (c == true) {
+        var c = confirm($('#are_you_sure_text').text());
 
-        if ($('.bulk_check:checked').length > 0) {
+        if (c == true) {
 
-            console.log('checkeddd');
             var removeElementsIds = '';
 
             $('.bulk_check:checked').each(function() {
@@ -216,7 +213,7 @@ $('#delete_chosen').click(function() {
 
             });
 
-            var _finalString = 'removeElementsName='+removeElementsName +'&'+ removeElementsIds;
+            var _finalString = 'removeElementsName='+removeElementsName + '&' + removeElementsIds;
 
             $.ajax({
                 url: removeElementsUrl,
@@ -231,6 +228,9 @@ $('#delete_chosen').click(function() {
                 }
             });
         }
+    }
+    else {
+        $('#noItemsChosenModalTrigger').click();
     }
 
 });

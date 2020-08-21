@@ -49704,13 +49704,11 @@ $('#bulk_all').click(function () {
 $('#delete_chosen').click(function () {
   var removeElementsName = $(this).data('removeelementsname');
   var removeElementsUrl = $(this).data('removeelementsurl');
-  console.log('removeElementsName');
-  console.log(removeElementsName);
-  var c = confirm("Are you sure?");
 
-  if (c == true) {
-    if ($('.bulk_check:checked').length > 0) {
-      console.log('checkeddd');
+  if ($('.bulk_check:checked').length > 0) {
+    var c = confirm($('#are_you_sure_text').text());
+
+    if (c == true) {
       var removeElementsIds = '';
       $('.bulk_check:checked').each(function () {
         var _entity_id = $(this).attr('id').replace('bulk_', '');
@@ -49733,6 +49731,8 @@ $('#delete_chosen').click(function () {
         }
       });
     }
+  } else {
+    $('#noItemsChosenModalTrigger').click();
   }
 });
 

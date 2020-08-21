@@ -4,23 +4,23 @@
 <div class="container">
     <div class="row mb-40">
         <div class="col-md-6 margin-tb">
-            <h2>Courses</h2>
+            <h2>{{__('Courses')}}</h2>
         </div>
         <div class="col-md-6">
             <div class="text-right">
                 <div class="dropdown" style="display:inline-block;">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Bulk Functions
+                        {{__('Bulk Functions')}}
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-                        <a class="dropdown-item" href="javascript:void(0);" id="delete_chosen" data-removeelementsname="courses" data-removeelementsurl="{{route('courses.bulk_remove')}}">Delete Courses</a>
-                        <a class="dropdown-item" href="#" id="connect_chosen" data-connecturl="">Connect Courses</a>
+                        <a class="dropdown-item" href="javascript:void(0);" id="delete_chosen" data-removeelementsname="courses" data-removeelementsurl="{{route('courses.bulk_remove')}}">{{__('Delete Courses')}}</a>
+                        <a class="dropdown-item" href="#" id="connect_chosen" data-connecturl="">{{__('Connect Courses')}}</a>
 
                     </div>
                 </div>
 
-                <a class="btn btn-success" href="{{ route('courses.create') }}" data-toggle="modal" data-target="#universalModal" data-route="{{ route('courses.create') }}" data-action="create" data-title="Create Course" data-elemid="" data-method="GET" data-submitroute="{{route('courses.store')}}"> Create Course</a>
+                <a class="btn btn-success" href="{{ route('courses.create') }}" data-toggle="modal" data-target="#universalModal" data-route="{{ route('courses.create') }}" data-action="create" data-title="{{__('Create Course')}}" data-elemid="" data-method="GET" data-submitroute="{{route('courses.store')}}"> {{__('Create Course')}}</a>
             </div>
         </div>
     </div>
@@ -28,11 +28,11 @@
   @if (!empty($courses))
     <div class="rows-list">
         <div class="row row-head">
-            <div class="col-md-1"><strong>No</strong></div>
-            <div class="col-md-4"><strong>Title</strong></div>
-            <div class="col-md-4"><strong>Description</strong></div>
-            <div class="col-md-1"><input type="checkbox" id="bulk_all"/>&nbsp;&nbsp;<strong>Bulk</strong></div>
-            <div class="col-md-2 text-center"><strong>Actions</strong></div>
+            <div class="col-md-1"><strong>{{__('No')}}</strong></div>
+            <div class="col-md-4"><strong>{{__('Title')}}</strong></div>
+            <div class="col-md-4"><strong>{{__('Description')}}</strong></div>
+            <div class="col-md-1"><input type="checkbox" id="bulk_all"/>&nbsp;&nbsp;<strong>{{__('Bulk')}}</strong></div>
+            <div class="col-md-2 text-center"><strong>{{__('Actions')}}</strong></div>
         </div>
         @foreach ($courses as $course)
 
@@ -45,11 +45,11 @@
 
                     <form action="{{ route('courses.destroy',$course->id) }}" method="POST" class="sbmt-delete-form">
 
-                        <a class="btn prevent-default-link show-elem" href="{{ route('courses.show',$course->id) }}" data-toggle="modal" data-target="#universalModal" data-route="{{route('courses.show',$course->id)}}" data-action="show" data-title="Course {{ $course->title }}" data-elemid="{{$course->id}}" >
+                        <a class="btn prevent-default-link show-elem" href="{{ route('courses.show',$course->id) }}" data-toggle="modal" data-target="#universalModal" data-route="{{route('courses.show',$course->id)}}" data-action="show" data-title="{{__('Course')}} {{ $course->title }}" data-elemid="{{$course->id}}" >
                             <i class="fa fa-eye" aria-hidden="true"></i>
                         </a>
 
-                        <a class="btn prevent-default-link edit-elem" href="{{ route('courses.edit',$course->id) }}" data-toggle="modal" data-target="#universalModal" data-route="{{route('courses.edit',$course->id)}}" data-action="edit" data-title="Edit Course {{ $course->title }}" data-elemid="{{$course->id}}" data-method="GET" data-submitroute="{{route('courses.store')}}">
+                        <a class="btn prevent-default-link edit-elem" href="{{ route('courses.edit',$course->id) }}" data-toggle="modal" data-target="#universalModal" data-route="{{route('courses.edit',$course->id)}}" data-action="edit" data-title="{{__('Edit Course')}} {{ $course->title }}" data-elemid="{{$course->id}}" data-method="GET" data-submitroute="{{route('courses.store')}}">
                             <i class="fa fa-pencil-square" aria-hidden="true"></i>
                         </a>
 
@@ -66,7 +66,7 @@
         @endforeach
     </div>
   @else
-    No Courses Yet
+        {{__('No Courses Yet')}}
   @endif
 </div>
 

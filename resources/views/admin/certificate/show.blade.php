@@ -11,7 +11,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
 
-                    <strong>Title:</strong>
+                    <strong>{{__('Title')}}:</strong>
 
                     <div class="column-parent">
                         @if (!empty($isEditMode))
@@ -29,7 +29,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
 
-                    <strong>Sub Title:</strong>
+                    <strong>{{__('Sub Title')}}:</strong>
 
                     <div class="column-parent">
                         @if (!empty($isEditMode))
@@ -46,7 +46,7 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Description:</strong>
+                    <strong>{{__('Description')}}:</strong>
 
                     <div class="column-parent">
                         @if (!empty($isEditMode))

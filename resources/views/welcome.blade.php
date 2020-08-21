@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="title m-b-md">
-                    CAS
+                    {{__('CAS')}}
                 </div>
             </div>
         </div>

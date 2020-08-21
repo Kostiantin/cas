@@ -139,6 +139,11 @@ nav.navbar.navbar-expand-md a, nav.navbar.navbar-expand-md a:hover,.navbar-expan
 .navbar-nav li.nav-item .dropdown-menu a {
   color: #000;
 }
+.elem-hidden {
+  visibility: hidden;
+  height: 1px;
+  width: 1px;
+}
 @media (max-width: 480px) {
   #app {
     min-height: initial;

@@ -45,14 +45,28 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('courses.index') }}">{{ __('Courses') }}</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('modules.index') }}">{{ __('Modules') }}</a>
+
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ __('Modules') }} <span class="caret"></span>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('modules.index') }}">{{ __('Modules') }}</a>
+                                <a class="dropdown-item" href="{{ route('days.index') }}">{{ __('Module Days') }}</a>
+                                <a class="dropdown-item" href="{{ route('lectures.index') }}">{{ __('Lectures') }}</a>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('settings.index') }}">{{ __('Settings') }}</a>
+
+
+                        {{--<li class="nav-item">
+                            <a class="nav-link" href="{{ route('days.index') }}">{{ __('Module Days') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('lectures.index') }}">{{ __('Lectures') }}</a>
+                        </li>--}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('settings.index') }}">{{ __('Settings') }}</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
