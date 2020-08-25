@@ -54,5 +54,10 @@ Route::prefix('admin')->group(function() {
 
     Route::resource('/days', 'DayController');
     Route::post('/days/bulk_remove', 'DayController@bulk_remove')->name('days.bulk_remove');
+
+
+    // connections
+    Route::get('/connections', 'ConnectionController@index')->name('connections.index');
+
 });
 

@@ -10,13 +10,16 @@
     <title>{{ config('app.name', 'CAS') }}</title>
 
     <!-- Scripts -->
+
     <script src="{{ asset('js/app.js') }}" defer></script>
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -38,7 +41,9 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('connections.index') }}">{{ __('Connections') }}</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('certificates.index') }}">{{ __('Certificates') }}</a>
                         </li>
@@ -57,14 +62,6 @@
                                 <a class="dropdown-item" href="{{ route('lectures.index') }}">{{ __('Lectures') }}</a>
                             </div>
                         </li>
-
-
-                        {{--<li class="nav-item">
-                            <a class="nav-link" href="{{ route('days.index') }}">{{ __('Module Days') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('lectures.index') }}">{{ __('Lectures') }}</a>
-                        </li>--}}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('settings.index') }}">{{ __('Settings') }}</a>
                         </li>

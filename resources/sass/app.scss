@@ -10,6 +10,8 @@
 
 @import 'node_modules/font-awesome/scss/font-awesome.scss';
 
+@import '~jquery-ui/themes/base/all.css';
+
 textarea:focus,
 input[type="text"]:focus,
 input[type="password"]:focus,
@@ -143,6 +145,121 @@ nav.navbar.navbar-expand-md a, nav.navbar.navbar-expand-md a:hover,.navbar-expan
   visibility: hidden;
   height: 1px;
   width: 1px;
+}
+.holder {
+  height: 5.5em;
+  line-height: 4.8em;
+  /*background: rgba(0,191,255,0.5); */
+  background: rgba(241,242,242,0.6);
+}
+
+.tooltipBox {
+  color: #090908;
+  background: rgba(250,250,250, 1);
+  -moz-box-shadow: 0 0 5px #ccc;
+  -webkit-box-shadow: 0 0 5px #ccc;
+  box-shadow: 0 0 5px #ccc;
+  padding: 0.5em 1em;
+  border: 1px solid #00BFFF;
+  border-radius: 0;
+}
+
+.releaseHeadings .fa-sort {
+  float: right;
+}
+
+.releasesWrp {
+  width: 100%;
+  display: block;
+}
+
+.releaseTracks {
+  width: 100%;
+}
+
+ul.releaseRow:first-of-type {
+  padding: 0.5em 1em;
+  background: #FFF;
+  border-bottom: 1px solid #090908;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  margin-bottom: 3px;
+}
+
+ul.releaseRow {
+  background: #FAFAFA;
+  border: 1px solid #CCC;
+}
+
+ul.releaseRow li {
+  vertical-align: middle;
+}
+
+.releaseTracks {
+  display: none;
+}
+
+.releaseTracks ul:first-of-type {
+  border-top: 2px dashed #666;
+  background: #F1F2F2;
+}
+
+.releaseTracks ul {
+  border-bottom: 2px solid #F1F2F2;
+  /*   background: #FFF; */
+}
+
+/* .releaseTracks ul {
+  background: #FFF;
+} */
+
+.releaseTracks ul li {
+  padding: 1em;
+}
+
+.rcol {
+  display: inline-block;
+  padding: 1em 0;
+}
+.rcol_1 {
+  width: 1%;
+}
+.rcol_2 {
+  width: 2%;
+}
+.rcol_3 {
+  width: 3%;
+}
+.rcol_4 {
+  width: 4%;
+}
+.rcol_5 {
+  width: 5%;
+}
+.rcol_6 {
+  width: 6%;
+}
+.rcol_7 {
+  width: 7%;
+}
+.rcol_8 {
+  width: 8%;
+}
+.rcol_9 {
+  width: 9%;
+}
+.rcol_10 {
+  width: 10%;
+}
+.rcol_15 {
+  width: 15%;
+}
+.rcol_20 {
+  width: 20%;
+}
+.rcol_25 {
+  width: 25%;
 }
 @media (max-width: 480px) {
   #app {
