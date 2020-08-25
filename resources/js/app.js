@@ -246,180 +246,86 @@ $('#delete_chosen').click(function() {
 
 /********* CONNECTIONS PAGE SORTABLE ACCORDIONS ***********/
 
-$(function() {
-    $('#releases ul li').sortable({ // #releases ul li
-        containment: "document",
-        items: '> ul',
-        handle: '.sort',
-        cursor: 'move',
-        connectWith: '.releaseRow', // #releases ul
-        placeholder: 'holder',
-        tolerance: "pointer",
-        revert: 300,
-        forcePlaceholderSize: true,
-        opacity: 0.5,
+$( function() {
+    $( "#modules_accordion, #modules_accordion_lvl_2" ).accordion({
+        active: false,
+        collapsible: true
+    });
+} );
+
+// drag and drop lectures in modules
+function makeDraggableLectures(selector) {
+    $(selector).draggable({
+        appendTo: "body",
         helper: "clone",
-        scroll: false,
-        dropOnEmpty: true
-    });
+        start: function( event, ui ) {
+            $('.ui-accordion-header').mouseover( function() {
 
-    $('.releaseTracks').sortable({ // #releases ul li
-        containment: "document",
-        items: '> ul',
-        handle: '.sort',
-        cursor: 'move',
-        helper: "clone",
-        revert: 300,
-        connectWith: '.releaseTracks', // #releases ul
-        placeholder: 'holder',
-        tolerance: "pointer",
-        forcePlaceholderSize: true,
-        opacity: 0.5,
-        scroll: true,
-        dropOnEmpty: true
-        // start: function(e, ui) {
-        //   ui.placeholder.height(ui.helper.outerHeight());
-        // }
-    });
-
-    $('.showTracks').on('click', function(){
-        $(this).closest('.releaseRow').find('.releaseTracks').slideToggle();
-    });
-
-    $(".tooltip_bottom_center").tooltip({
-        tooltipClass: "tooltipBox",
-        show: {
-            effect: "slideDown",
-            delay: 100
-        },
-        position: {
-            my: "center",
-            at: "bottom+10"
-        }
-    });
-
-
-
-
-
-    var releaseItem = $('.releases li ul.releaseRow');
-    releaseItem = releaseItem.slice(1);
-    var container = $('.releases > li ul.releaseRow:gt(0)');
-    var order = [3,4];
-    var release_id = null;
-
-    $(document).one('ready', function () {
-        setOrder(order);
-    });
-
-    // Set releases order
-    function setOrder(order)
-    {
-        // console.log(order);
-        if(order !== undefined && order !== null && order.length !== 0)
-        {
-            // console.log('A - ' + 'Order: ' + order);
-            render(order);
-        }
-        else
-        {
-            // TODO update to be actual release id's of default value being used on page load.
-            $.each(releaseItem, function(i,v){
-
-                // var release_id = i; // update to use actual release ID.
-                // $(this).attr('data-sort', release_id);
-                order.push($(this).data('sort'));
-                var items = $(this).children('li');
-
-                $.each(items, function(i,v){
-                    $(this).attr('data-sort', $(this).parent().data('sort') + '.' + i++);
-                });
-
-            });
-            // console.log('B');
-            render(order);
-        }
-    }
-
-
-    // Get releases order
-    function getOrder()
-    {
-        if(order !== undefined && order !== null && order.length !== 0)
-        {
-            return order;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-
-    // Sort releases order based on sort selction
-    function sortReleases(sortby) // string
-    {
-        // Get current order
-        var currentOrder = getOrder();
-        // console.log(currentOrder);
-
-        var dataValue = [];
-        var sortValue = Array();
-        var toSort = [];
-        var newOrder = [];
-
-        $.each(releaseItem, function(){
-            dataValue.push($(this).children('li').not('li.releaseTracks'));
-        });
-
-        $.each(dataValue, function(k,v){
-            $.each(v, function(){
-                if($(this).data('sortby') === sortby)
-                {
-                    var rId = 'release_' + $(this).parent().data('sort');
-                    // console.log(rId + ' ' + $(this).text());
-                    sortValue[rId] = $(this).text();
+                // auto open accordion elements when drag and move over accordion
+                if ($(this).hasClass('ui-accordion-header-collapsed')) {
+                    $(this).click();
                 }
+
             });
-        });
-        // console.log(sortValue);
-
-        var alpha = /[^a-zA-Z]/g;
-        var numeric = /[^0-9]/g;
-
-        function sortAlphaNum(a,b) {
-            console.log(a);
-            console.log(b);
-            var aA = a.replace(alpha, "");
-            var bA = b.replace(alpha, "");
-            if(aA === bA) {
-                var aN = parseInt(a.replace(numeric, ""), 10);
-                var bN = parseInt(b.replace(numeric, ""), 10);
-                return aN === bN ? 0 : aN > bN ? 1 : -1;
-            } else {
-                return aA > bA ? 1 : -1;
-            }
+        },
+        stop: function( event, ui ) {
+            // unset click on accord elem on mouseover
+            $('.ui-accordion-header').unbind('mouseover');
         }
-        // console.log(sortValue);
-        sortValue.sort(sortAlphaNum);
-        // sortAlphaNum(sortValue);
-        console.log(sortValue);
-        render(sortValue);
-    }
-
-    // Event, listen for releases order selection
-    $('.releaseHeadings .fa-sort').on('click', function(){
-        var sortby = $(this).parent().data('sortby');
-        sortReleases(sortby);
     });
 
-    function render(order)
-    {
-        console.log('Output HTML of releases in new order: ' + order);
+    $(selector).removeClass('newly-created');
+}
+
+makeDraggableLectures(".drg-elem-lecture");
+
+$(".drpbl-module").droppable({
+    accept: ".drg-elem-lecture",
+    drop: function (event, ui) {
+
+        // change id and classes of ui elem
+        var _clone_ = $(ui.draggable).clone();
+        var _new_ui_id = $(_clone_).data('lectureid');
+
+        var counter_of_existing_elms = $(this).find('.drg-elem').length;
+        var number_of_max_lectures_in_slot = parseInt($('#max_amount_of_lectures_in_slot').data('max_amount_of_lectures_in_slot'));
+
+        if ($(this).find('div[data-lectureid="'+_new_ui_id+'"]').length == 0 && counter_of_existing_elms < number_of_max_lectures_in_slot) {
+            $(this).append(_clone_);
+        }
     }
+});
+
+// add lecture
+$('.add-lecture').click(function() {
+    $('#c_panel_lectures .dragging-parent').append('<div class="drg-elem drg-elem-lecture"><input type="text" value="" name="new_lecture_name" class="new_lecture_name"></div>');
+    $('.new_lecture_name').focus();
 
 
-}); // end of document.ready
+    // on focus out add new lecture if name is not empty
+    $('.new_lecture_name').blur(function() {
 
+        var _current_val = $(this).val();
+
+        $('.new_lecture_name').parent().remove();
+
+        if (_current_val != '') {
+            $('#c_panel_lectures .dragging-parent').append('<div class="drg-elem drg-elem-lecture newly-created">'+_current_val+'</div>');
+
+            // re-create the draggables list
+
+            makeDraggableLectures('.newly-created');
+        }
+
+    });
+});
+
+$(document).on('keypress', '.new_lecture_name', function(e) {
+    if(e.which == 13) {
+        $('.new_lecture_name').blur();
+        $('.add-lecture').click();
+    }
+});
 
 
 

@@ -47,8 +47,8 @@ class LectureController extends Controller
 
         $validator = Validator::make($request->all(),[
             'name' => 'required|max:255',
-            'description' => 'required',
-            'duration' => 'required',
+            //'description' => 'required',
+            //'duration' => 'required',
         ]);
 
         if ($validator->passes()) {

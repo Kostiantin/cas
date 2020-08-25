@@ -49,7 +49,7 @@ class ModuleController extends Controller
         $validator = Validator::make($request->all(),[
             'name' => 'required|max:255',
             'code' => 'required|max:255',
-            'description' => 'required',
+           // 'description' => 'required',
         ]);
 
         if ($validator->passes()) {

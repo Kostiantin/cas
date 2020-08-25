@@ -47,8 +47,8 @@ class CertificateController extends Controller
 
         $validator = Validator::make($request->all(),[
             'title' => 'required|max:255',
-            'sub_title' => 'required|max:255',
-            'description' => 'required',
+            'sub_title' => 'max:255',
+            //'description' => 'required',
         ]);
 
         if ($validator->passes()) {

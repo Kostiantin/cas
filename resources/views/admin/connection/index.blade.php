@@ -6,178 +6,101 @@
         <div class="col-md-12 margin-tb">
             <h2>{{ __('Connections') }}</h2>
         </div>
-        <div class="col-md-12">
-            <div class="releasesWrp" id="releases">
-                <ul class="releases">
-                    <li>
-                        <!-- Release Item -->
-                        <ul class="releaseRow releaseHeadings">
-                            <li class="rcol rcol_3 tc" data-sortby="release_sort"><i class="fa fa-bars" aria-hidden="true"></i></li>
-                            <li class="rcol rcol_7 tc" data-sortby="release_artwork"><i class="fa fa-picture-o" aria-hidden="true"></i></li>
-                            <li class="rcol rcol_20" data-sortby="release_title">Title <i class="fa fa-sort" aria-hidden="true"></i></li>
-                            <li class="rcol rcol_10" data-sortby="release_artist">Artist <i class="fa fa-sort" aria-hidden="true"></i></li>
-                            <li class="rcol rcol_10 tc" data-sortby="release_type">Type <i class="fa fa-sort" aria-hidden="true"></i></li>
-                            <li class="rcol rcol_7 tc" data-sortby="release_date">Date <i class="fa fa-sort" aria-hidden="true"></i></li>
-                            <li class="rcol rcol_10 tc" data-sortby="release_label">Label <i class="fa fa-sort" aria-hidden="true"></i></li>
-                            <li class="rcol rcol_10 tc" data-sortby="release_isrc">ISRC <i class="fa fa-sort" aria-hidden="true"></i></li>
-                            <li class="rcol rcol_5 tc tooltip_bottom_center" data-sortby="release_cps"><i class="fa fa-tachometer" title="Current Piracy Score" aria-hidden="true"></i></li>
-                            <li class="rcol rcol_3 tc" data-sortby="release_status">Status <i class="fa fa-sort" aria-hidden="true"></i></li>
-                            <li class="rcol rcol_7 tc" data-sortby="release_service">Service <i class="fa fa-sort" aria-hidden="true"></i></li>
-                            <li class="rcol rcol_5 tc" data-sortby="release_tracks"><i class="fa fa-plus-circle" aria-hidden="true"></i></li>
-                        </ul>
+        <div class="col-xs-12 col-md-4">
+            <div class="card c_panel" id="c_panel_modules">
+                <div class="card-header"><h4><strong>{{ __('Modules') }}</strong></h4></div>
+                <div class="card-body">
 
-                        <!-- Release Item -->
-                        <ul class="releaseRow" data-sort="3">
-                            <li class="rcol rcol_3 tc sort" data-sortby="release_sort"><i class="fa fa-bars" aria-hidden="true"></i></li>
-                            <li class="rcol rcol_7 tc img" data-sortby="release_artwork"><img src="//placehold.it/50x50" alt=""/></li>
-                            <li class="rcol rcol_20" data-sortby="release_title">Ibiza Classics 2010</li>
-                            <li class="rcol rcol_10" data-sortby="release_artist">Judge Jules</li>
-                            <li class="rcol rcol_10 tc" data-sortby="release_type">Album</li>
-                            <li class="rcol rcol_7 tc" data-sortby="release_date">03/05/2015</li>
-                            <li class="rcol rcol_10 tc" data-sortby="release_label">Cream</li>
-                            <li class="rcol rcol_10 tc" data-sortby="release_isrc">165893829834582</li>
-                            <li class="rcol rcol_5 tc tooltip_bottom_center" title="Current Piracy Score" data-sortby="release_cps">9.24</li>
-                            <li class="rcol rcol_3 tc" data-sortby="release_status"><i class="fa fa-level-down" aria-hidden="true"></i></li>
-                            <li class="rcol rcol_7 tc" data-sortby="release_service">Watermarked</li>
-                            <li class="rcol rcol_5 tc showTracks" data-sortby="release_tracks"><i class="fa fa-plus-circle" aria-hidden="true"></i></li>
-                            <li class="releaseTracks">
-                                <ul class="trackRow">
-                                    <li class="rcol rcol_2 tc sort" data-sortby="track_sort"><i class="fa fa-bars" aria-hidden="true"></i></li>
-                                    <li class="rcol rcol_4 tc" data-sortby="track_artwork"><img src="//placehold.it/50x50" alt=""></li>
-                                    <li class="rcol rcol_10" data-sortby="track_title">Track 1</li>
-                                    <li class="rcol rcol_10" data-sortby="track_artist">Franky Knuckles</li>
-                                    <li class="rcol rcol_10 tc" data-sortby="track_type">Album</li>
-                                    <li class="rcol rcol_5 tc" data-sortby="track_release_date">03/05/2015</li>
-                                    <li class="rcol rcol_5 tc" data-sortby="track_label">Spinin</li>
-                                    <li class="rcol rcol_7 tc" data-sortby="track_isrc">165893829834582</li>
-                                    <li class="rcol rcol_5 tc tooltip_bottom_center" title="Current Piracy Score" data-sortby="track_cps">9.24</li>
-                                    <li class="rcol rcol_3 tc" data-sortby="track_status"><i class="fa fa-level-up" aria-hidden="true"></i></li>
-                                    <li class="rcol rcol_7 tc" data-sortby="track_service">Watermarked</li>
-                                    <li class="rcol rcol_5 tc" data-sortby="track_trash">
-                <span class="fa-stack fa-lg">
-                  <i class="fa fa-square-o fa-stack-2x"></i>
-                  <i class="fa fa-trash fa-stack-1x"></i>
-                </span>
-                                    </li>
-                                </ul>
-                                <ul class="trackRow">
-                                    <li class="rcol rcol_2 tc sort" data-sortby="track_sort"><i class="fa fa-bars" aria-hidden="true"></i></li>
-                                    <li class="rcol rcol_4 tc" data-sortby="track_artwork"><img src="//placehold.it/50x50" alt=""></li>
-                                    <li class="rcol rcol_10" data-sortby="track_title">Track 2</li>
-                                    <li class="rcol rcol_10" data-sortby="track_artist">Franky Knuckles</li>
-                                    <li class="rcol rcol_10 tc" data-sortby="track_type">Album</li>
-                                    <li class="rcol rcol_5 tc" data-sortby="track_release_date">03/05/2015</li>
-                                    <li class="rcol rcol_5 tc" data-sortby="track_label">Spinin</li>
-                                    <li class="rcol rcol_7 tc" data-sortby="track_isrc">165893829834582</li>
-                                    <li class="rcol rcol_5 tc tooltip_bottom_center" title="Current Piracy Score" data-sortby="track_cps">9.24</li>
-                                    <li class="rcol rcol_3 tc" data-sortby="track_status"><i class="fa fa-level-up" aria-hidden="true"></i></li>
-                                    <li class="rcol rcol_7 tc" data-sortby="track_service">Watermarked</li>
-                                    <li class="rcol rcol_5 tc" data-sortby="track_trash">
-                <span class="fa-stack fa-lg">
-                  <i class="fa fa-square-o fa-stack-2x"></i>
-                  <i class="fa fa-trash fa-stack-1x"></i>
-                </span>
-                                    </li>
-                                </ul>
-                                <ul class="trackRow">
-                                    <li class="rcol rcol_2 tc sort" data-sortby="track_sort"><i class="fa fa-bars" aria-hidden="true"></i></li>
-                                    <li class="rcol rcol_4 tc" data-sortby="track_artwork"><img src="//placehold.it/50x50" alt=""></li>
-                                    <li class="rcol rcol_10" data-sortby="track_title">Track 3</li>
-                                    <li class="rcol rcol_10" data-sortby="track_artist">Franky Knuckles</li>
-                                    <li class="rcol rcol_10 tc" data-sortby="track_type">Album</li>
-                                    <li class="rcol rcol_5 tc" data-sortby="track_release_date">03/05/2015</li>
-                                    <li class="rcol rcol_5 tc" data-sortby="track_label">Spinin</li>
-                                    <li class="rcol rcol_7 tc" data-sortby="track_isrc">165893829834582</li>
-                                    <li class="rcol rcol_5 tc tooltip_bottom_center" title="Current Piracy Score" data-sortby="track_cps">9.24</li>
-                                    <li class="rcol rcol_3 tc" data-sortby="track_status"><i class="fa fa-level-up" aria-hidden="true"></i></li>
-                                    <li class="rcol rcol_7 tc" data-sortby="track_service">Watermarked</li>
-                                    <li class="rcol rcol_5 tc" data-sortby="track_trash">
-                <span class="fa-stack fa-lg">
-                  <i class="fa fa-square-o fa-stack-2x"></i>
-                  <i class="fa fa-trash fa-stack-1x"></i>
-                </span>
-                                    </li>
-                                </ul>
-                                <ul class="trackRow">
-                                    <li class="rcol rcol_2 tc sort" data-sortby="track_sort"><i class="fa fa-bars" aria-hidden="true"></i></li>
-                                    <li class="rcol rcol_4 tc" data-sortby="track_artwork"><img src="//placehold.it/50x50" alt=""></li>
-                                    <li class="rcol rcol_10" data-sortby="track_title">Track 4</li>
-                                    <li class="rcol rcol_10" data-sortby="track_artist">Franky Knuckles</li>
-                                    <li class="rcol rcol_10 tc" data-sortby="track_type">Album</li>
-                                    <li class="rcol rcol_5 tc" data-sortby="track_release_date">03/05/2015</li>
-                                    <li class="rcol rcol_5 tc" data-sortby="track_label">Spinin</li>
-                                    <li class="rcol rcol_7 tc" data-sortby="track_isrc">165893829834582</li>
-                                    <li class="rcol rcol_5 tc tooltip_bottom_center" title="Current Piracy Score" data-sortby="track_cps">9.24</li>
-                                    <li class="rcol rcol_3 tc" data-sortby="track_status"><i class="fa fa-level-up" aria-hidden="true"></i></li>
-                                    <li class="rcol rcol_7 tc" data-sortby="track_service">Watermarked</li>
-                                    <li class="rcol rcol_5 tc" data-sortby="track_trash">
-                <span class="fa-stack fa-lg">
-                  <i class="fa fa-square-o fa-stack-2x"></i>
-                  <i class="fa fa-trash fa-stack-1x"></i>
-                </span>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+                    <div id="modules_accordion">
 
-                        <!-- Release Item -->
-                        <ul class="releaseRow" data-sort="4">
-                            <li class="rcol rcol_3 tc sort" data-sortby="release_sort"><i class="fa fa-bars" aria-hidden="true"></i></li>
-                            <li class="rcol rcol_7 tc img" data-sortby="release_artwork"><img src="//placehold.it/50x50" alt=""/></li>
-                            <li class="rcol rcol_20" data-sortby="release_title">Cream Trance Anthems</li>
-                            <li class="rcol rcol_10" data-sortby="release_artist">Judge Jules</li>
-                            <li class="rcol rcol_10 tc" data-sortby="release_type">Album</li>
-                            <li class="rcol rcol_7 tc" data-sortby="release_date">03/05/2015</li>
-                            <li class="rcol rcol_10 tc" data-sortby="release_label">Cream</li>
-                            <li class="rcol rcol_10 tc" data-sortby="release_isrc">165893829834582</li>
-                            <li class="rcol rcol_5 tc tooltip_bottom_center" title="Current Piracy Score" data-sortby="release_cps">9.24</li>
-                            <li class="rcol rcol_3 tc" data-sortby="release_status"><i class="fa fa-level-down" aria-hidden="true"></i></li>
-                            <li class="rcol rcol_7 tc" data-sortby="release_service">Watermarked</li>
-                            <li class="rcol rcol_5 tc showTracks" data-sortby="release_tracks"><i class="fa fa-plus-circle" aria-hidden="true"></i></li>
-                            <li class="releaseTracks">
-                                <ul class="trackRow">
-                                    <li class="rcol rcol_2 tc sort" data-sortby="track_sort"><i class="fa fa-bars" aria-hidden="true"></i></li>
-                                    <li class="rcol rcol_4 tc" data-sortby="track_artwork"><img src="//placehold.it/50x50" alt=""></li>
-                                    <li class="rcol rcol_10" data-sortby="track_title">Track 1</li>
-                                    <li class="rcol rcol_10" data-sortby="track_artist">Franky Knuckles</li>
-                                    <li class="rcol rcol_10 tc" data-sortby="track_type">Album</li>
-                                    <li class="rcol rcol_5 tc" data-sortby="track_release_date">03/05/2015</li>
-                                    <li class="rcol rcol_5 tc" data-sortby="track_label">Spinin</li>
-                                    <li class="rcol rcol_7 tc" data-sortby="track_isrc">165893829834582</li>
-                                    <li class="rcol rcol_5 tc tooltip_bottom_center" title="Current Piracy Score" data-sortby="track_cps">9.24</li>
-                                    <li class="rcol rcol_3 tc" data-sortby="track_status"><i class="fa fa-level-up" aria-hidden="true"></i></li>
-                                    <li class="rcol rcol_7 tc" data-sortby="track_service">Watermarked</li>
-                                    <li class="rcol rcol_5 tc" data-sortby="track_trash">
-                <span class="fa-stack fa-lg">
-                  <i class="fa fa-square-o fa-stack-2x"></i>
-                  <i class="fa fa-trash fa-stack-1x"></i>
-                </span>
-                                    </li>
-                                </ul>
-                                <ul class="trackRow">
-                                    <li class="rcol rcol_2 tc sort" data-sortby="track_sort"><i class="fa fa-bars" aria-hidden="true"></i></li>
-                                    <li class="rcol rcol_4 tc" data-sortby="track_artwork"><img src="//placehold.it/50x50" alt=""></li>
-                                    <li class="rcol rcol_10" data-sortby="track_title">Track 2</li>
-                                    <li class="rcol rcol_10" data-sortby="track_artist">Franky Knuckles</li>
-                                    <li class="rcol rcol_10 tc" data-sortby="track_type">Album</li>
-                                    <li class="rcol rcol_5 tc" data-sortby="track_release_date">03/05/2015</li>
-                                    <li class="rcol rcol_5 tc" data-sortby="track_label">Spinin</li>
-                                    <li class="rcol rcol_7 tc" data-sortby="track_isrc">165893829834582</li>
-                                    <li class="rcol rcol_5 tc tooltip_bottom_center" title="Current Piracy Score" data-sortby="track_cps">9.24</li>
-                                    <li class="rcol rcol_3 tc" data-sortby="track_status"><i class="fa fa-level-up" aria-hidden="true"></i></li>
-                                    <li class="rcol rcol_7 tc" data-sortby="track_service">Watermarked</li>
-                                    <li class="rcol rcol_5 tc" data-sortby="track_trash">
-                <span class="fa-stack fa-lg">
-                  <i class="fa fa-square-o fa-stack-2x"></i>
-                  <i class="fa fa-trash fa-stack-1x"></i>
-                </span>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+                        @if (!empty($modules))
 
-                    </li>
-                </ul>
+                            @foreach ($modules as $module)
+                                <h5>{{$module->name}}</h5>
+                                <div class="acc_lvl_2 module-container" id="module-container-{{$module->id}}">
+
+                                    <div id="modules_accordion_lvl_2">
+
+                                        @if (!empty($settings))
+
+                                            @php
+                                                $max_amount_of_module_days = 1;
+                                                $max_amount_of_lecture_slots = 1;
+                                                $max_amount_of_lectures_in_slot = 1;
+                                            @endphp
+
+                                            @foreach ($settings as $setting)
+                                                  @if ($setting->name == 'max_amount_of_module_days')
+                                                      @php
+                                                        $max_amount_of_module_days=$setting->value;
+                                                      @endphp
+                                                  @endif
+
+                                                  @if ($setting->name == 'max_amount_of_lecture_slots')
+                                                      @php
+                                                          $max_amount_of_lecture_slots=$setting->value;
+                                                      @endphp
+                                                  @endif
+
+                                                  @if ($setting->name == 'max_amount_of_lectures_in_slot')
+                                                      @php
+                                                          $max_amount_of_lectures_in_slot=$setting->value;
+                                                      @endphp
+                                                  @endif
+                                            @endforeach
+
+
+
+                                            @for ($i = 1; $i <= $max_amount_of_module_days; $i++)
+                                                <h6>{{ __('Day') }} {{$i}}</h6>
+                                                <div class="acc_lvl_2_content day-container" id="day-container-{{$module->id}}-{{$i}}">
+
+                                                    @for ($z = 1; $z <= $max_amount_of_lecture_slots; $z++)
+                                                        <small>{{ __('Lecture Slot') }} {{$z}}</small>
+                                                        <div class="acc_lvl_3_content drpbl drpbl-module slot-container" id="slot-container-{{$module->id}}-{{$i}}-{{$z}}">
+                                                            <span class="droppable-area-text">{{ __('Droppable Area') }}</span>
+                                                        </div>
+                                                    @endfor
+
+                                                </div>
+                                            @endfor
+
+                                        @endif
+
+                                    </div>
+
+                                </div>
+                            @endforeach
+
+                        @endif
+
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <span id="max_amount_of_lectures_in_slot" data-max_amount_of_lectures_in_slot="{{$max_amount_of_lectures_in_slot}}"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-4">
+            <div class="card c_panel" id="c_panel_lectures">
+                <div class="card-header"><h4><strong>{{__('Lectures')}}</strong></h4></div>
+                <div class="card-body">
+
+                    @if (!empty($lectures))
+
+                      <div class="dragging-parent">
+                          @foreach ($lectures as $lecture)
+                            <div class="drg-elem drg-elem-lecture" data-lectureid="{{$lecture->id}}">{{ $lecture->name }}</div>
+                          @endforeach
+                      </div>
+
+                    @endif
+
+                </div>
+                <div class="card-footer text-right">
+                    <i title="{{ __('Add Lecture') }}" class="fa fa-plus add-lecture" aria-hidden="true"></i>
+                </div>
             </div>
         </div>
     </div>

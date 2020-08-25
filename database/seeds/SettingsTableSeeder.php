@@ -28,5 +28,14 @@ class SettingsTableSeeder extends Seeder
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
+
+        DB::table('settings')->insert([
+            'id' => 3,
+            'name' => 'max_amount_of_lectures_in_slot',
+            'value' => '3',
+            'description' => 'Maximum amount of lectures in slots',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
     }
 }

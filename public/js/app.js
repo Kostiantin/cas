@@ -57227,154 +57227,72 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('#delete_chosen').click(function (
 /********* CONNECTIONS PAGE SORTABLE ACCORDIONS ***********/
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#releases ul li').sortable({
-    // #releases ul li
-    containment: "document",
-    items: '> ul',
-    handle: '.sort',
-    cursor: 'move',
-    connectWith: '.releaseRow',
-    // #releases ul
-    placeholder: 'holder',
-    tolerance: "pointer",
-    revert: 300,
-    forcePlaceholderSize: true,
-    opacity: 0.5,
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()("#modules_accordion, #modules_accordion_lvl_2").accordion({
+    active: false,
+    collapsible: true
+  });
+}); // drag and drop lectures in modules
+
+function makeDraggableLectures(selector) {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(selector).draggable({
+    appendTo: "body",
     helper: "clone",
-    scroll: false,
-    dropOnEmpty: true
-  });
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.releaseTracks').sortable({
-    // #releases ul li
-    containment: "document",
-    items: '> ul',
-    handle: '.sort',
-    cursor: 'move',
-    helper: "clone",
-    revert: 300,
-    connectWith: '.releaseTracks',
-    // #releases ul
-    placeholder: 'holder',
-    tolerance: "pointer",
-    forcePlaceholderSize: true,
-    opacity: 0.5,
-    scroll: true,
-    dropOnEmpty: true // start: function(e, ui) {
-    //   ui.placeholder.height(ui.helper.outerHeight());
-    // }
-
-  });
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.showTracks').on('click', function () {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).closest('.releaseRow').find('.releaseTracks').slideToggle();
-  });
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".tooltip_bottom_center").tooltip({
-    tooltipClass: "tooltipBox",
-    show: {
-      effect: "slideDown",
-      delay: 100
-    },
-    position: {
-      my: "center",
-      at: "bottom+10"
-    }
-  });
-  var releaseItem = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.releases li ul.releaseRow');
-  releaseItem = releaseItem.slice(1);
-  var container = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.releases > li ul.releaseRow:gt(0)');
-  var order = [3, 4];
-  var release_id = null;
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).one('ready', function () {
-    setOrder(order);
-  }); // Set releases order
-
-  function setOrder(order) {
-    // console.log(order);
-    if (order !== undefined && order !== null && order.length !== 0) {
-      // console.log('A - ' + 'Order: ' + order);
-      render(order);
-    } else {
-      // TODO update to be actual release id's of default value being used on page load.
-      jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(releaseItem, function (i, v) {
-        // var release_id = i; // update to use actual release ID.
-        // $(this).attr('data-sort', release_id);
-        order.push(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('sort'));
-        var items = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).children('li');
-        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(items, function (i, v) {
-          jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).attr('data-sort', jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parent().data('sort') + '.' + i++);
-        });
-      }); // console.log('B');
-
-      render(order);
-    }
-  } // Get releases order
-
-
-  function getOrder() {
-    if (order !== undefined && order !== null && order.length !== 0) {
-      return order;
-    } else {
-      return 0;
-    }
-  } // Sort releases order based on sort selction
-
-
-  function sortReleases(sortby) // string
-  {
-    // Get current order
-    var currentOrder = getOrder(); // console.log(currentOrder);
-
-    var dataValue = [];
-    var sortValue = Array();
-    var toSort = [];
-    var newOrder = [];
-    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(releaseItem, function () {
-      dataValue.push(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).children('li').not('li.releaseTracks'));
-    });
-    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(dataValue, function (k, v) {
-      jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(v, function () {
-        if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('sortby') === sortby) {
-          var rId = 'release_' + jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parent().data('sort'); // console.log(rId + ' ' + $(this).text());
-
-          sortValue[rId] = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).text();
+    start: function start(event, ui) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.ui-accordion-header').mouseover(function () {
+        // auto open accordion elements when drag and move over accordion
+        if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).hasClass('ui-accordion-header-collapsed')) {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).click();
         }
       });
-    }); // console.log(sortValue);
-
-    var alpha = /[^a-zA-Z]/g;
-    var numeric = /[^0-9]/g;
-
-    function sortAlphaNum(a, b) {
-      console.log(a);
-      console.log(b);
-      var aA = a.replace(alpha, "");
-      var bA = b.replace(alpha, "");
-
-      if (aA === bA) {
-        var aN = parseInt(a.replace(numeric, ""), 10);
-        var bN = parseInt(b.replace(numeric, ""), 10);
-        return aN === bN ? 0 : aN > bN ? 1 : -1;
-      } else {
-        return aA > bA ? 1 : -1;
-      }
-    } // console.log(sortValue);
-
-
-    sortValue.sort(sortAlphaNum); // sortAlphaNum(sortValue);
-
-    console.log(sortValue);
-    render(sortValue);
-  } // Event, listen for releases order selection
-
-
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.releaseHeadings .fa-sort').on('click', function () {
-    var sortby = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parent().data('sortby');
-    sortReleases(sortby);
+    },
+    stop: function stop(event, ui) {
+      // unset click on accord elem on mouseover
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.ui-accordion-header').unbind('mouseover');
+    }
   });
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(selector).removeClass('newly-created');
+}
 
-  function render(order) {
-    console.log('Output HTML of releases in new order: ' + order);
+makeDraggableLectures(".drg-elem-lecture");
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(".drpbl-module").droppable({
+  accept: ".drg-elem-lecture",
+  drop: function drop(event, ui) {
+    // change id and classes of ui elem
+    var _clone_ = jquery__WEBPACK_IMPORTED_MODULE_0___default()(ui.draggable).clone();
+
+    var _new_ui_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(_clone_).data('lectureid');
+
+    var counter_of_existing_elms = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find('.drg-elem').length;
+    var number_of_max_lectures_in_slot = parseInt(jquery__WEBPACK_IMPORTED_MODULE_0___default()('#max_amount_of_lectures_in_slot').data('max_amount_of_lectures_in_slot'));
+
+    if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find('div[data-lectureid="' + _new_ui_id + '"]').length == 0 && counter_of_existing_elms < number_of_max_lectures_in_slot) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).append(_clone_);
+    }
   }
-}); // end of document.ready
+}); // add lecture
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('.add-lecture').click(function () {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#c_panel_lectures .dragging-parent').append('<div class="drg-elem drg-elem-lecture"><input type="text" value="" name="new_lecture_name" class="new_lecture_name"></div>');
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.new_lecture_name').focus(); // on focus out add new lecture if name is not empty
+
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.new_lecture_name').blur(function () {
+    var _current_val = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
+
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.new_lecture_name').parent().remove();
+
+    if (_current_val != '') {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#c_panel_lectures .dragging-parent').append('<div class="drg-elem drg-elem-lecture newly-created">' + _current_val + '</div>'); // re-create the draggables list
+
+      makeDraggableLectures('.newly-created');
+    }
+  });
+});
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on('keypress', '.new_lecture_name', function (e) {
+  if (e.which == 13) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.new_lecture_name').blur();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.add-lecture').click();
+  }
+});
 
 /***/ }),
 

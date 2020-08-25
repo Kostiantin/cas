@@ -17,7 +17,7 @@ class CreateCoursesTable extends Migration
             $table->increments('id');
             //$table->integer('certificate_id')->unsigned();
             $table->string('title', 255);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

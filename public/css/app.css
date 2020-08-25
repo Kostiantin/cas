@@ -15664,131 +15664,81 @@ nav.navbar.navbar-expand-md a:hover,
   width: 1px;
 }
 
-.holder {
-  height: 5.5em;
-  line-height: 4.8em;
-  /*background: rgba(0,191,255,0.5); */
-  background: rgba(241, 242, 242, 0.6);
+.ui-accordion .ui-accordion-content.acc_lvl_2,
+.ui-accordion .ui-accordion-content.acc_lvl_2_content {
+  height: auto !important;
 }
 
-.tooltipBox {
-  color: #090908;
-  background: #fafafa;
-  box-shadow: 0 0 5px #ccc;
-  padding: 0.5em 1em;
-  border: 1px solid #00BFFF;
-  border-radius: 0;
-}
-
-.releaseHeadings .fa-sort {
-  float: right;
-}
-
-.releasesWrp {
+.drpbl {
   width: 100%;
+  min-height: 30px;
+  background-color: #fefefe;
+  border: 1px dashed #999;
+  position: relative;
+  padding: 10px;
+}
+
+.acc_lvl_3_content {
+  margin-bottom: 10px;
+}
+
+.acc_lvl_2_content small {
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.droppable-area-text {
+  text-align: center;
+  color: #999;
+  font-size: 10px;
+  text-transform: lowercase;
   display: block;
+  padding-top: 0;
+  position: absolute;
+  top: -2px;
+  right: 3px;
 }
 
-.releaseTracks {
+.ui-accordion .ui-accordion-content {
+  padding: 15px;
+}
+
+.card-footer .fa-plus {
+  cursor: pointer;
+  color: #033f0e;
+}
+
+.card-header h4 {
+  margin-bottom: 0;
+  font-size: 16px;
+}
+
+.ui-accordion-header.ui-state-active {
+  background-color: #009688;
+  border: 1px solid #009688;
+}
+
+.drg-elem {
+  border: 1px solid #c5c5c5;
+  background-color: #e5f4e8;
+  padding: 2px 15px;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+
+.drg-elem input {
+  height: 22px;
+  display: block;
   width: 100%;
+  border: 1px solid #c5c5c5;
+  border-radius: 3px;
+  padding: 0 5px;
 }
 
-ul.releaseRow:first-of-type {
-  padding: 0.5em 1em;
-  background: #FFF;
-  border-bottom: 1px solid #090908;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  margin-bottom: 3px;
-}
-
-ul.releaseRow {
-  background: #FAFAFA;
-  border: 1px solid #CCC;
-}
-
-ul.releaseRow li {
-  vertical-align: middle;
-}
-
-.releaseTracks {
-  display: none;
-}
-
-.releaseTracks ul:first-of-type {
-  border-top: 2px dashed #666;
-  background: #F1F2F2;
-}
-
-.releaseTracks ul {
-  border-bottom: 2px solid #F1F2F2;
-  /*   background: #FFF; */
-}
-
-/* .releaseTracks ul {
-  background: #FFF;
-} */
-
-.releaseTracks ul li {
-  padding: 1em;
-}
-
-.rcol {
-  display: inline-block;
-  padding: 1em 0;
-}
-
-.rcol_1 {
-  width: 1%;
-}
-
-.rcol_2 {
-  width: 2%;
-}
-
-.rcol_3 {
-  width: 3%;
-}
-
-.rcol_4 {
-  width: 4%;
-}
-
-.rcol_5 {
-  width: 5%;
-}
-
-.rcol_6 {
-  width: 6%;
-}
-
-.rcol_7 {
-  width: 7%;
-}
-
-.rcol_8 {
-  width: 8%;
-}
-
-.rcol_9 {
-  width: 9%;
-}
-
-.rcol_10 {
-  width: 10%;
-}
-
-.rcol_15 {
-  width: 15%;
-}
-
-.rcol_20 {
-  width: 20%;
-}
-
-.rcol_25 {
-  width: 25%;
+.drg-elem input:focus {
+  outline: none !important;
+  border: 1px solid #c5c5c5 !important;
+  box-shadow: none;
 }
 
 @media (max-width: 480px) {

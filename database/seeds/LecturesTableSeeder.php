@@ -28,5 +28,23 @@ class LecturesTableSeeder extends Seeder
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
+
+        DB::table('lectures')->insert([
+            'id' => 3,
+            'name' => 'Meta tags',
+            'duration' => 15,
+            'description' => 'Meta tags in web development',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+
+        DB::table('lectures')->insert([
+            'id' => 4,
+            'name' => 'Google Ads Marketing',
+            'duration' => 30,
+            'description' => 'One of the most important skills for marketer - Google Ads mastering',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
     }
 }
