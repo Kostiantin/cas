@@ -41,7 +41,7 @@
                 <div class="col-md-1"><strong>#{{ $lecture->id }}</strong></div>
                 <div class="col-md-3">{{ $lecture->name }}</div>
                 <div class="col-md-2">{{ \Illuminate\Support\Str::limit($lecture->description, 100, '...') }}</div>
-                <div class="col-md-3">{{ $lecture->duration }}</div>
+                <div class="col-md-3 text-center">{{ $lecture->duration }}</div>
                 <div class="col-md-1"><input class="bulk_check" type="checkbox" name="bulk[{{$lecture->id}}]" id="bulk_{{$lecture->id}}" value="1"/></div>
                 <div class="col-md-2 m-actions text-center">
 

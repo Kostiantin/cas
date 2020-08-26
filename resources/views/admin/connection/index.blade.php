@@ -7,7 +7,7 @@
             <h2>{{ __('Connections') }}</h2>
         </div>
         <div class="col-xs-12 col-md-4">
-            <div class="card c_panel" id="c_panel_modules">
+            <div class="card c_panel" id="c_panel_modules" data-urlstore="{{ route('modules.store') }}" data-urlremove="{{ route('modules.destroy',0) }}">
                 <div class="card-header"><h4><strong>{{ __('Modules') }}</strong></h4></div>
                 <div class="card-body">
 
@@ -16,7 +16,8 @@
                         @if (!empty($modules))
 
                             @foreach ($modules as $module)
-                                <h5>{{$module->name}}</h5>
+
+                                <h5 class="module-header can-be-deleted" data-moduleid="{{$module->id}}" data-type="module">{{$module->name}} <i class="fa fa-times" aria-hidden="true"></i> </h5>
                                 <div class="acc_lvl_2 module-container" id="module-container-{{$module->id}}">
 
                                     <div id="modules_accordion_lvl_2">
@@ -57,9 +58,13 @@
 
                                                     @for ($z = 1; $z <= $max_amount_of_lecture_slots; $z++)
                                                         <small>{{ __('Lecture Slot') }} {{$z}}</small>
+                                                    <div class="acc_lvl3_parent">
+                                                        <span class="droppable-area-text">{{ __('Droppable Area') }}</span>
                                                         <div class="acc_lvl_3_content drpbl drpbl-module slot-container" id="slot-container-{{$module->id}}-{{$i}}-{{$z}}">
-                                                            <span class="droppable-area-text">{{ __('Droppable Area') }}</span>
+
                                                         </div>
+                                                    </div>
+
                                                     @endfor
 
                                                 </div>
@@ -77,13 +82,15 @@
                     </div>
 
                 </div>
-                <div class="card-footer">
+                <div class="card-footer text-right">
                     <span id="max_amount_of_lectures_in_slot" data-max_amount_of_lectures_in_slot="{{$max_amount_of_lectures_in_slot}}"></span>
+                    <span id="max_amount_of_module_days" data-max_amount_of_module_days="{{$max_amount_of_module_days}}"></span>
+                    <i title="{{ __('Add Module') }}" class="fa fa-plus add-module" aria-hidden="true"></i>
                 </div>
             </div>
         </div>
         <div class="col-xs-12 col-md-4">
-            <div class="card c_panel" id="c_panel_lectures">
+            <div class="card c_panel" id="c_panel_lectures" data-urlstore="{{ route('lectures.store') }}" data-urlremove="{{ route('lectures.destroy',0) }}">
                 <div class="card-header"><h4><strong>{{__('Lectures')}}</strong></h4></div>
                 <div class="card-body">
 
@@ -91,7 +98,7 @@
 
                       <div class="dragging-parent">
                           @foreach ($lectures as $lecture)
-                            <div class="drg-elem drg-elem-lecture" data-lectureid="{{$lecture->id}}">{{ $lecture->name }}</div>
+                            <div class="drg-elem drg-elem-lecture can-be-deleted" data-lectureid="{{$lecture->id}}" data-type="lecture">{{ $lecture->name }}<i class="fa fa-times" aria-hidden="true"></i></div>
                           @endforeach
                       </div>
 

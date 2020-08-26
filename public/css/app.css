@@ -15687,6 +15687,10 @@ nav.navbar.navbar-expand-md a:hover,
   font-weight: bold;
 }
 
+.acc_lvl3_parent {
+  position: relative;
+}
+
 .droppable-area-text {
   text-align: center;
   color: #999;
@@ -15695,8 +15699,9 @@ nav.navbar.navbar-expand-md a:hover,
   display: block;
   padding-top: 0;
   position: absolute;
-  top: -2px;
+  top: -1px;
   right: 3px;
+  z-index: 1;
 }
 
 .ui-accordion .ui-accordion-content {
@@ -15724,6 +15729,8 @@ nav.navbar.navbar-expand-md a:hover,
   padding: 2px 15px;
   border-radius: 3px;
   margin-bottom: 10px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .drg-elem input {
@@ -15735,10 +15742,92 @@ nav.navbar.navbar-expand-md a:hover,
   padding: 0 5px;
 }
 
-.drg-elem input:focus {
+input:focus {
   outline: none !important;
   border: 1px solid #c5c5c5 !important;
   box-shadow: none;
+}
+
+#c_panel_modules {
+  visibility: hidden;
+}
+
+.drpbl.highlight-droppable {
+  border-color: #033f0e;
+  background-color: #eceaf3;
+}
+
+.drpbl .drg-elem:last-child,
+.dragging-parent .drg-elem:last-child {
+  margin-bottom: 0px;
+}
+
+input.new_module_name:focus,
+input.new_module_code:focus {
+  outline: none !important;
+  border: 1px solid #c5c5c5 !important;
+  box-shadow: none;
+}
+
+input.new_module_name {
+  margin-right: 5px;
+}
+
+input.new_module_name,
+input.new_module_code {
+  display: inline-block;
+  border: 1px solid #c5c5c5 !important;
+}
+
+input.new_module_name {
+  width: 65%;
+}
+
+input.new_module_code {
+  width: 30%;
+}
+
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  font-size: 10px;
+}
+
+::-moz-placeholder {
+  /* Firefox 19+ */
+  font-size: 10px;
+}
+
+:-ms-input-placeholder {
+  /* IE 10+ */
+  font-size: 10px;
+}
+
+:-moz-placeholder {
+  /* Firefox 18- */
+  font-size: 10px;
+}
+
+.a-tmp-hidden {
+  visibility: hidden;
+}
+
+.can-be-deleted {
+  position: relative;
+}
+
+.can-be-deleted .fa-times {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  font-size: 14px;
+  color: #000;
+  cursor: pointer;
+}
+
+.ui-accordion .module-header.ui-accordion-header {
+  height: 29px;
+  white-space: nowrap;
+  padding: 6px 10px;
 }
 
 @media (max-width: 480px) {

@@ -51,7 +51,7 @@ class DayController extends Controller
 
         if ($validator->passes()) {
 
-            Day::updateOrCreate(['id' => $request->id], ['name' => $request->name, 'description' => $request->description, 'value' => $request->value]);
+            Day::updateOrCreate(['id' => $request->id], ['name' => $request->name, 'description' => (!empty($request->description) ? $request->description : ''), 'value' => (!empty($request->value) ? $request->value : '')]);
 
 
 

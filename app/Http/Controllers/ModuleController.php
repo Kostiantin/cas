@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\CourseToModule;
 use App\Module;
+use App\ModuleToDay;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -54,11 +56,11 @@ class ModuleController extends Controller
 
         if ($validator->passes()) {
 
-            Module::updateOrCreate(['id' => $request->id], ['name' => $request->name, 'description' => $request->description, 'code' => $request->code]);
+            $module = Module::updateOrCreate(['id' => $request->id], ['name' => $request->name, 'description' => (!empty($request->description) ? $request->description : ''), 'code' => $request->code]);
 
             // if connections to sequences were done, also add them to table sequence_to_module
 
-            return response()->json(['success' => 'New module was added']);
+            return response()->json(['success' => 'New module was added', 'id' => $module->id]);
         }
         else {
             return response()->json(['error' => $validator->errors()]);
@@ -120,6 +122,25 @@ class ModuleController extends Controller
      */
     public function destroy(Module $module)
     {
+
+        $courses_to_modules = CourseToModule::where('module_id', $module->id)->get();
+
+
+        if (count($courses_to_modules) > 0) {
+            foreach ($courses_to_modules as $ctm) {
+                $ctm->delete();
+            }
+        }
+
+        $modules_to_days = ModuleToDay::where('module_id', $module->id)->get();
+
+        if (count($modules_to_days) > 0) {
+            foreach ($modules_to_days as $mtd) {
+                $mtd->delete();
+            }
+        }
+
+
         $module->delete();
 
         return redirect()->route('modules.index')
@@ -132,6 +153,24 @@ class ModuleController extends Controller
 
             foreach($request->removeElementsIds as $mId){
                 $module = Module::find($mId);
+
+                $courses_to_modules = CourseToModule::where('module_id', $module->id)->get();
+
+
+                if (count($courses_to_modules) > 0) {
+                    foreach ($courses_to_modules as $ctm) {
+                        $ctm->delete();
+                    }
+                }
+
+                $modules_to_days = ModuleToDay::where('module_id', $module->id)->get();
+
+                if (count($modules_to_days) > 0) {
+                    foreach ($modules_to_days as $mtd) {
+                        $mtd->delete();
+                    }
+                }
+
                 $module->delete();
             }
 

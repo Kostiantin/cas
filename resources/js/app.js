@@ -59,6 +59,8 @@ $.ajaxSetup({
     }
 });
 
+jQuery('body').addClass('js');
+
 /*************** UNIVERSAL MODAL *****************/
 $('#universalModal').on('show.bs.modal', function (event) {
 
@@ -246,12 +248,14 @@ $('#delete_chosen').click(function() {
 
 /********* CONNECTIONS PAGE SORTABLE ACCORDIONS ***********/
 
-$( function() {
-    $( "#modules_accordion, #modules_accordion_lvl_2" ).accordion({
-        active: false,
-        collapsible: true
-    });
-} );
+$('.drpbl.slot-container').sortable();
+
+$( "#modules_accordion, #modules_accordion_lvl_2" ).accordion({
+    active: false,
+    collapsible: true
+});
+
+$('#c_panel_modules').css({'visibility': 'visible'});
 
 // drag and drop lectures in modules
 function makeDraggableLectures(selector) {
@@ -274,60 +278,210 @@ function makeDraggableLectures(selector) {
         }
     });
 
-    $(selector).removeClass('newly-created');
+    $(selector).removeClass('newly-created-lecture');
 }
 
 makeDraggableLectures(".drg-elem-lecture");
 
-$(".drpbl-module").droppable({
-    accept: ".drg-elem-lecture",
-    drop: function (event, ui) {
+function makeDroppableModulesDaySlots(selector)
+{
+    $(selector).droppable({
+        accept: ".drg-elem-lecture",
+        hoverClass: 'highlight-droppable',
+        drop: function (event, ui) {
 
-        // change id and classes of ui elem
-        var _clone_ = $(ui.draggable).clone();
-        var _new_ui_id = $(_clone_).data('lectureid');
+            // change id and classes of ui elem
+            var _clone_ = $(ui.draggable).clone();
+            var _new_ui_id = $(_clone_).data('lectureid');
 
-        var counter_of_existing_elms = $(this).find('.drg-elem').length;
-        var number_of_max_lectures_in_slot = parseInt($('#max_amount_of_lectures_in_slot').data('max_amount_of_lectures_in_slot'));
+            var counter_of_existing_elms = $(this).find('.drg-elem').length;
+            var number_of_max_lectures_in_slot = parseInt($('#max_amount_of_lectures_in_slot').data('max_amount_of_lectures_in_slot'));
 
-        if ($(this).find('div[data-lectureid="'+_new_ui_id+'"]').length == 0 && counter_of_existing_elms < number_of_max_lectures_in_slot) {
-            $(this).append(_clone_);
+            if ($(this).find('div[data-lectureid="'+_new_ui_id+'"]').length == 0 && counter_of_existing_elms < number_of_max_lectures_in_slot) {
+                $(this).append(_clone_);
+                $(this).sortable();
+            }
+
         }
-    }
-});
+    });
+
+    $(selector).removeClass('newly-created-module-slot');
+}
+
+makeDroppableModulesDaySlots(".drpbl-module");
 
 // add lecture
 $('.add-lecture').click(function() {
     $('#c_panel_lectures .dragging-parent').append('<div class="drg-elem drg-elem-lecture"><input type="text" value="" name="new_lecture_name" class="new_lecture_name"></div>');
-    $('.new_lecture_name').focus();
 
+    $('.new_lecture_name').focus();
 
     // on focus out add new lecture if name is not empty
     $('.new_lecture_name').blur(function() {
 
+        var _the_parent = $(this).parents('.c_panel:first');
         var _current_val = $(this).val();
 
         $('.new_lecture_name').parent().remove();
 
         if (_current_val != '') {
-            $('#c_panel_lectures .dragging-parent').append('<div class="drg-elem drg-elem-lecture newly-created">'+_current_val+'</div>');
 
-            // re-create the draggables list
+            var _create_url = $(_the_parent).data('urlstore');
 
-            makeDraggableLectures('.newly-created');
+
+            $.ajax({
+                url: _create_url,
+                method: 'POST',
+                data: {'name': _current_val},
+                success: function(data) {
+
+                    if (typeof data.success != 'undefined' && data.success != null && data.success != '') {
+
+                        $('.success-message').text(data.success);
+
+                    }
+
+                    if (typeof data.id != 'undefined' && data.id != null && data.id != '') {
+
+                        $('#c_panel_lectures .dragging-parent').append('<div data-type="lecture" data-lectureid="'+data.id+'" class="drg-elem drg-elem-lecture newly-created-lecture can-be-deleted">'+_current_val+'<i class="fa fa-times" aria-hidden="true"></i></div>');
+
+                        makeDraggableLectures('.newly-created-lecture');
+                    }
+
+                }
+            });
+
+            // make newly added lecture draggable
+
         }
 
     });
 });
 
+// add module
+$('.add-module').click(function() {
+    $('#modules_accordion').append('<h5 class="ui-accordion-header ui-corner-top ui-state-default ui-accordion-icons" role="tab" id="ui-id-4" aria-controls="module-container-4" aria-selected="true" aria-expanded="true" tabindex="0"><input type="text" value="" name="new_module_name" class="new_module_name" placeholder="module name"><input type="text" value="" name="new_module_code" class="new_module_code" placeholder="module code"></h5>');
+
+    $('.new_module_name').focus();
+
+    // on focus out add new lecture if name is not empty
+    $('.new_module_code').blur(function() {
+
+        var _the_parent = $(this).parents('.c_panel:first');
+        var _current_name_val = $('.new_module_name').val();
+        var _current_code_val = $(this).val();
+
+        $('.new_module_name').parent().remove();
+
+        if (_current_name_val != '' && _current_code_val != '') {
+
+            var _create_url = $(_the_parent).data('urlstore');
+
+            console.log('_create_url');
+            console.log(_create_url);
+
+            $.ajax({
+                url: _create_url,
+                method: 'POST',
+                data: {'name': _current_name_val, 'code' : _current_code_val},
+                success: function(data) {
+
+                    if (typeof data.success != 'undefined' && data.success != null && data.success != '') {
+
+                        $('.success-message').text(data.success);
+
+                    }
+
+                    if (typeof data.id != 'undefined' && data.id != null && data.id != '') {
+
+                        var max_amount_of_module_days = parseInt($('#max_amount_of_module_days').data('max_amount_of_module_days'));
+                        var max_amount_of_lectures_in_slot = parseInt($('#max_amount_of_lectures_in_slot').data('max_amount_of_lectures_in_slot'));
+                        var _module_days_and_slots = '';
+
+                        if (max_amount_of_module_days && max_amount_of_lectures_in_slot) {
+
+                            for (var i=1; i <= max_amount_of_module_days; i++ ) {
+
+                                _module_days_and_slots += '<h6 >Day ' + i + '</h6><div class="acc_lvl_2_content day-container" id="day-container-' + data.id + '-' + i + '">';
+
+                                for (var z=1; z <= max_amount_of_lectures_in_slot; z++ ) {
+                                    _module_days_and_slots += '<small>Lecture Slot '+z+'</small><div class="acc_lvl3_parent"><span class="droppable-area-text">Droppable Area</span><div class="acc_lvl_3_content drpbl drpbl-module slot-container newly-created-module-slot" id="slot-container-' + data.id + '-' + i + '-' + z + '"></div></div>';
+                                }
+
+                            }
+
+                            $('#modules_accordion').append('<h5 class="module-header can-be-deleted a-tmp-hidden" data-moduleid="' + data.id + '" data-type="module">' + _current_name_val + '<i class="fa fa-times" aria-hidden="true"></i></h5><div class="acc_lvl_2 module-container" id="module-container-' + data.id + '"><div id="modules_accordion_lvl_2 a-tmp-hidden">'+_module_days_and_slots+'</div></div>');
+
+                            $( "#modules_accordion, #modules_accordion_lvl_2" ).accordion( "refresh" );
+
+                            makeDroppableModulesDaySlots(".newly-created-module-slot");
+
+                            $('.a-tmp-hidden').removeClass('a-tmp-hidden');
+                        }
+                    }
+                }
+            });
+            // make newly added lecture draggable
+        }
+    });
+});
+
+// handle enter press during lecture creating
 $(document).on('keypress', '.new_lecture_name', function(e) {
     if(e.which == 13) {
         $('.new_lecture_name').blur();
-        $('.add-lecture').click();
+        setTimeout(function() {
+            $('.add-lecture').click();
+        }, 1000);
+
     }
 });
 
+// handle enter press during module creating
+$(document).on('keypress', '.new_module_code', function(e) {
+    if(e.which == 13) {
+        $('.new_module_code').blur();
+        setTimeout(function() {
+            $('.add-module').click();
+        }, 1300);
 
+    }
+});
+
+// delete element
+$(document).on('click', '.can-be-deleted .fa-times', function(e) {
+
+    e.stopPropagation();
+
+    var _item_type = $(this).parent().data('type');
+    var _id = '';
+    var _current_obj = this;
+    if (_item_type == 'lecture') {
+        _id = $(this).parent().data('lectureid');
+    }
+
+    if (_item_type == 'module') {
+        _id = $(this).parent().data('moduleid');
+    }
+
+    if (_id != '') {
+
+        var _urlremove = $(this).parents('.c_panel:first').data('urlremove');
+        _urlremove = _urlremove.replace('0', _id);
+
+        $.ajax({
+            url: _urlremove,
+            method: 'POST',
+            data: {'_method':'DELETE'},
+            success: function (data) {
+                if (typeof data.success != 'undefined' && data.success != null && data.success != '') {
+                    $(_current_obj).parents('.can-be-deleted:first').remove();
+                }
+            }
+        });
+
+    }
+});
 
 
 

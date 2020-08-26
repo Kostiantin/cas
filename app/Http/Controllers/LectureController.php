@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Lecture;
+use App\LectureSlotsToLecture;
 use Validator;
+use Illuminate\Support\Facades\DB;
 
 class LectureController extends Controller
 {
@@ -53,11 +55,11 @@ class LectureController extends Controller
 
         if ($validator->passes()) {
 
-            Lecture::updateOrCreate(['id' => $request->id], ['name' => $request->name, 'description' => $request->description, 'duration' => $request->duration]);
+            $lecture = Lecture::updateOrCreate(['id' => $request->id], ['name' => $request->name, 'description' => (!empty($request->description) ? $request->description : ''), 'duration' => (!empty($request->duration) ? $request->duration : 45)]);
 
 
 
-            return response()->json(['success' => 'New lecture was added']);
+            return response()->json(['success' => 'New lecture was added', 'id' => $lecture->id]);
         }
         else {
             return response()->json(['error' => $validator->errors()]);
@@ -99,11 +101,23 @@ class LectureController extends Controller
         return view('admin.lecture.show', compact('lecture','isEditMode'));
     }
 
-
-
-    public function destroy(Lecture $lecture)
+    public function destroy(Lecture $lecture, Request $request)
     {
+
+        $lecture_slots_to_lectures = LectureSlotsToLecture::where('lecture_id', $lecture->id)->get();
+
+
+        if (count($lecture_slots_to_lectures) > 0) {
+            foreach ($lecture_slots_to_lectures as $lstl) {
+                $lstl->delete();
+            }
+        }
+
         $lecture->delete();
+
+        if ($request->ajax()){
+            return response()->json(['success' => 'Records were deleted']);
+        }
 
         return redirect()->route('lectures.index')
             ->with('success','Lecture deleted successfully');
@@ -115,6 +129,16 @@ class LectureController extends Controller
 
             foreach($request->removeElementsIds as $mId){
                 $lecture = Lecture::find($mId);
+
+                $lecture_slots_to_lectures = LectureSlotsToLecture::where('lecture_id', $lecture->id)->get();
+
+
+                if (count($lecture_slots_to_lectures) > 0) {
+                    foreach ($lecture_slots_to_lectures as $lstl) {
+                        $lstl->delete();
+                    }
+                }
+
                 $lecture->delete();
             }
 
