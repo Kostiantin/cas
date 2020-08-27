@@ -60,7 +60,7 @@ class ModuleController extends Controller
 
             // if connections to sequences were done, also add them to table sequence_to_module
 
-            return response()->json(['success' => 'New module was added', 'id' => $module->id]);
+            return response()->json(['success' => 'New module was added', 'id' => $module->id, 'code' => $module->code]);
         }
         else {
             return response()->json(['error' => $validator->errors()]);

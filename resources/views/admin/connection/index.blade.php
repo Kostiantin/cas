@@ -17,10 +17,10 @@
 
                             @foreach ($modules as $module)
 
-                                <h5 class="module-header can-be-deleted" data-moduleid="{{$module->id}}" data-type="module">{{$module->name}} <i class="fa fa-times" aria-hidden="true"></i> </h5>
+                                <h5 class="module-header can-be-deleted can-be-edited" data-modulecode="{{$module->code}}" data-moduleid="{{$module->id}}" data-type="module" data-urlstore="{{ route('modules.store') }}"><span class="editable-content">{{$module->name}}</span> <i class="fa fa-pencil-square-o edit-pencil" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i> </h5>
                                 <div class="acc_lvl_2 module-container" id="module-container-{{$module->id}}">
 
-                                    <div id="modules_accordion_lvl_2">
+                                    <div class="modules_accordion_lvl_2">
 
                                         @if (!empty($settings))
 
@@ -53,7 +53,7 @@
 
 
                                             @for ($i = 1; $i <= $max_amount_of_module_days; $i++)
-                                                <h6>{{ __('Day') }} {{$i}}</h6>
+                                                <h6 class="can-be-edited" data-urlstore="{{ route('days.store') }}" data-dayid="{{$i}}" data-type="day"><span class="editable-content">{{ __('Day') }} {{$i}} </span><i class="fa fa-pencil-square-o edit-pencil" aria-hidden="true"></i></h6>
                                                 <div class="acc_lvl_2_content day-container" id="day-container-{{$module->id}}-{{$i}}">
 
                                                     @for ($z = 1; $z <= $max_amount_of_lecture_slots; $z++)
@@ -83,8 +83,12 @@
 
                 </div>
                 <div class="card-footer text-right">
-                    <span id="max_amount_of_lectures_in_slot" data-max_amount_of_lectures_in_slot="{{$max_amount_of_lectures_in_slot}}"></span>
-                    <span id="max_amount_of_module_days" data-max_amount_of_module_days="{{$max_amount_of_module_days}}"></span>
+                    <span class="invisible-elem" id="max_amount_of_lectures_in_slot" data-max_amount_of_lectures_in_slot="{{$max_amount_of_lectures_in_slot}}"></span>
+                    <span class="invisible-elem" id="max_amount_of_lecture_slots" data-max_amount_of_lecture_slots="{{$max_amount_of_lecture_slots}}"></span>
+                    <span class="invisible-elem" id="max_amount_of_module_days" data-max_amount_of_module_days="{{$max_amount_of_module_days}}"></span>
+                    <span class="invisible-elem" id="title_for_lecture_connections">{{__('Number of lecture connections to days slots')}}</span>
+                    <span class="invisible-elem" id="day_store_url" data-urlstore="{{ route('days.store') }}"></span>
+                    <span class="invisible-elem" id="lecture_store_url" data-urlstore="{{ route('lectures.store') }}"></span>
                     <i title="{{ __('Add Module') }}" class="fa fa-plus add-module" aria-hidden="true"></i>
                 </div>
             </div>
@@ -98,7 +102,7 @@
 
                       <div class="dragging-parent">
                           @foreach ($lectures as $lecture)
-                            <div class="drg-elem drg-elem-lecture can-be-deleted" data-lectureid="{{$lecture->id}}" data-type="lecture">{{ $lecture->name }}<i class="fa fa-times" aria-hidden="true"></i></div>
+                            <div class="drg-elem drg-elem-lecture can-be-deleted can-be-edited" data-urlstore="{{ route('lectures.store') }}" data-lectureid="{{$lecture->id}}" data-type="lecture"><span class="editable-content">{{ $lecture->name }}</span><i class="fa fa-pencil-square-o edit-pencil" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i></div>
                           @endforeach
                       </div>
 

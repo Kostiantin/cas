@@ -248,12 +248,125 @@ $('#delete_chosen').click(function() {
 
 /********* CONNECTIONS PAGE SORTABLE ACCORDIONS ***********/
 
-$('.drpbl.slot-container').sortable();
+// count connections of each lecture
+function setNumConnectionsOfLectures(chosen_lecture_id='')
+{
+    var selector = 'div[data-type="lecture"]';
+    var _decrease_num = 1;
 
-$( "#modules_accordion, #modules_accordion_lvl_2" ).accordion({
-    active: false,
-    collapsible: true
+    if (chosen_lecture_id != '') {
+        _decrease_num = 2;
+    }
+
+    if (chosen_lecture_id != '') {
+        selector = 'div[data-lectureid="'+chosen_lecture_id+'"]';
+    }
+
+    $(selector).each(function(){
+        var lecture_id = $(this).data('lectureid');
+        //console.log($(this).text());
+        var current_lecture_counters = parseInt($('div[data-lectureid="'+lecture_id+'"]').length) - _decrease_num;
+        //console.log($('div[data-lectureid="'+lecture_id+'"]').length);
+
+        if ($(this).find('.amount-of-lectures').length > 0) {
+            $(this).find('.amount-of-lectures').remove();
+            $(' <span class="amount-of-lectures" title="' + $('#title_for_lecture_connections').text() + '"> <strong> (' + current_lecture_counters + ') </strong> </span> ').insertBefore($(this).find('.fa-times'));
+        }
+        else {
+            $(' <span class="amount-of-lectures" title="' + $('#title_for_lecture_connections').text() + '"> <strong> (' + current_lecture_counters + ') </strong> </span> ').insertBefore($(this).find('.fa-times'));
+        }
+
+    });
+}
+
+setNumConnectionsOfLectures();
+
+$('.drpbl.slot-container').sortable({
+    revert: false,
+    start: function(event, ui) {
+        $(ui.item).addClass('placed-in-sortable');
+    }
 });
+
+// EDIT elements on the fly
+$(document).on('click', '.fa-pencil-square-o.edit-pencil', function(e) {
+
+    e.stopImmediatePropagation();
+    e.stopPropagation();
+
+    var _editable_content_text = $(this).parents('.can-be-edited:first').find('.editable-content').hide().text();
+
+    $(this).parents('.can-be-edited:first').find('.amount-of-lectures').hide();
+    $(this).parents('.can-be-edited:first').find('.edit-pencil').hide();
+
+    $(this).parents('.can-be-edited:first').append('<input type="text" class="new_editing_element" name="new_editing_element" value="' + _editable_content_text + '"/>');
+
+    $('.new_editing_element').focus().blur(function() {
+
+        var _the_parent = $(this).parents('.can-be-edited:first');
+        var _current_val = $(this).val();
+
+        if (_current_val != '') {
+
+            var _create_url = $(_the_parent).data('urlstore');
+
+            var id = '';
+            var _item_type = $(_the_parent).data('type');
+            var _code = '';
+
+            if (_item_type == 'lecture') {
+                id = $(_the_parent).data('lectureid');
+            }
+            if (_item_type == 'module') {
+                id = $(_the_parent).data('moduleid');
+                _code = $(_the_parent).data('modulecode');
+            }
+            $('.new_editing_element').remove();
+            $.ajax({
+                url: _create_url,
+                method: 'POST',
+                data: {'name': _current_val, 'id': id, 'code': _code},
+                success: function(data) {
+
+
+
+                    if (typeof data.success != 'undefined' && data.success != null && data.success != '') {
+
+                        $(_the_parent).find('.editable-content').text(_current_val).show();
+                        $(_the_parent).find('.amount-of-lectures').show();
+                        $(_the_parent).find('.edit-pencil').show();
+
+                        if (_item_type == 'lecture') {
+                            $('div[data-lectureid="'+id+'"]').find('.editable-content').text(_current_val);
+                        }
+
+                    }
+                }
+            });
+
+            // make newly added lecture draggable
+
+        }
+
+    });
+
+});
+
+$( "#modules_accordion, .modules_accordion_lvl_2" ).accordion({
+    active: false,
+    collapsible: true,
+    beforeActivate:function(event, ui ){
+        var fromIcon = $(event.originalEvent.target).is('*:not(.fa-pencil-square-o.edit-pencil, .fa-times, .new_editing_element)');
+        return fromIcon;
+    }
+});
+
+// small hook for keyboard hot keys disable for accordion
+$.ui.accordion.prototype._keydown = function( event ) {
+    // your new code for the "_keydown" function
+};
+
+$('#modules_accordion h5').off('dblclick');
 
 $('#c_panel_modules').css({'visibility': 'visible'});
 
@@ -262,6 +375,16 @@ function makeDraggableLectures(selector) {
     $(selector).draggable({
         appendTo: "body",
         helper: "clone",
+        drag: function( event, ui ) {
+            /*$('.ui-accordion-header').mouseover( function() {
+
+                // auto open accordion elements when drag and move over accordion
+                if ($(this).hasClass('ui-accordion-header-collapsed')) {
+                    $(this).click();
+                }
+
+            });*/
+        },
         start: function( event, ui ) {
             $('.ui-accordion-header').mouseover( function() {
 
@@ -288,18 +411,39 @@ function makeDroppableModulesDaySlots(selector)
     $(selector).droppable({
         accept: ".drg-elem-lecture",
         hoverClass: 'highlight-droppable',
+        tolerance: 'touch',
         drop: function (event, ui) {
 
             // change id and classes of ui elem
-            var _clone_ = $(ui.draggable).clone();
-            var _new_ui_id = $(_clone_).data('lectureid');
+            if (!$(ui.draggable).hasClass('placed-in-sortable')) {
+                var _lecture_to_add_ = $(ui.draggable).clone().addClass('placed-in-sortable');
+            }
+            else {
+                var _lecture_to_add_ = $(ui.draggable);
+            }
+
+            $(_lecture_to_add_).find('.edit-pencil').remove();
+
+            var _new_ui_id = $(_lecture_to_add_).data('lectureid');
 
             var counter_of_existing_elms = $(this).find('.drg-elem').length;
             var number_of_max_lectures_in_slot = parseInt($('#max_amount_of_lectures_in_slot').data('max_amount_of_lectures_in_slot'));
 
+
             if ($(this).find('div[data-lectureid="'+_new_ui_id+'"]').length == 0 && counter_of_existing_elms < number_of_max_lectures_in_slot) {
-                $(this).append(_clone_);
-                $(this).sortable();
+
+                $(this).append(_lecture_to_add_);
+
+                if ($(this).find('div[data-lectureid="'+_new_ui_id+'"]').length > 1) {
+                    $(this).find('div[data-lectureid="'+_new_ui_id+'"]:nth-child(2)').remove();
+                }
+
+                if (selector != '.newly-created-module-slot') {
+                    $( this ).sortable( "refresh" );
+                }
+
+
+                setNumConnectionsOfLectures(_new_ui_id);
             }
 
         }
@@ -343,7 +487,7 @@ $('.add-lecture').click(function() {
 
                     if (typeof data.id != 'undefined' && data.id != null && data.id != '') {
 
-                        $('#c_panel_lectures .dragging-parent').append('<div data-type="lecture" data-lectureid="'+data.id+'" class="drg-elem drg-elem-lecture newly-created-lecture can-be-deleted">'+_current_val+'<i class="fa fa-times" aria-hidden="true"></i></div>');
+                        $('#c_panel_lectures .dragging-parent').append('<div data-type="lecture" data-lectureid="'+data.id+'" class="drg-elem drg-elem-lecture newly-created-lecture can-be-deleted can-be-edited" data-urlstore="'+$('#lecture_store_url').data('urlstore')+'"><span class="editable-content">'+_current_val+'</span><i class="fa fa-pencil-square-o edit-pencil" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i></div>');
 
                         makeDraggableLectures('.newly-created-lecture');
                     }
@@ -395,28 +539,37 @@ $('.add-module').click(function() {
                     if (typeof data.id != 'undefined' && data.id != null && data.id != '') {
 
                         var max_amount_of_module_days = parseInt($('#max_amount_of_module_days').data('max_amount_of_module_days'));
-                        var max_amount_of_lectures_in_slot = parseInt($('#max_amount_of_lectures_in_slot').data('max_amount_of_lectures_in_slot'));
+                        var max_amount_of_lecture_slots = parseInt($('#max_amount_of_lecture_slots').data('max_amount_of_lecture_slots'));
                         var _module_days_and_slots = '';
 
-                        if (max_amount_of_module_days && max_amount_of_lectures_in_slot) {
+                        if (max_amount_of_module_days && max_amount_of_lecture_slots) {
 
                             for (var i=1; i <= max_amount_of_module_days; i++ ) {
 
-                                _module_days_and_slots += '<h6 >Day ' + i + '</h6><div class="acc_lvl_2_content day-container" id="day-container-' + data.id + '-' + i + '">';
+                                _module_days_and_slots += '<h6 class="can-be-edited" data-urlstore="'+$('#day_store_url').data('urlstore')+'" data-dayid="'+i+'" data-type="day"><span class="editable-content">Day ' + i + '</span><i class="fa fa-pencil-square-o edit-pencil" aria-hidden="true"></i></h6><div class="acc_lvl_2_content day-container" id="day-container-' + data.id + '-' + i + '">';
 
-                                for (var z=1; z <= max_amount_of_lectures_in_slot; z++ ) {
+                                for (var z=1; z <= max_amount_of_lecture_slots; z++ ) {
                                     _module_days_and_slots += '<small>Lecture Slot '+z+'</small><div class="acc_lvl3_parent"><span class="droppable-area-text">Droppable Area</span><div class="acc_lvl_3_content drpbl drpbl-module slot-container newly-created-module-slot" id="slot-container-' + data.id + '-' + i + '-' + z + '"></div></div>';
                                 }
-
+                                _module_days_and_slots += '</div>';
                             }
 
-                            $('#modules_accordion').append('<h5 class="module-header can-be-deleted a-tmp-hidden" data-moduleid="' + data.id + '" data-type="module">' + _current_name_val + '<i class="fa fa-times" aria-hidden="true"></i></h5><div class="acc_lvl_2 module-container" id="module-container-' + data.id + '"><div id="modules_accordion_lvl_2 a-tmp-hidden">'+_module_days_and_slots+'</div></div>');
+                            $('#modules_accordion').append('<h5 class="module-header can-be-deleted can-be-edited a-tmp-hidden" data-urlstore="'+_create_url+'" data-moduleid="' + data.id + '" data-type="module" data-modulecode="' + data.code + '"><span class="editable-content" >' + _current_name_val + '</span><i class="fa fa-pencil-square-o edit-pencil" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i></h5><div class="acc_lvl_2 module-container" id="module-container-' + data.id + '"><div class="modules_accordion_lvl_2 a-tmp-hidden">'+_module_days_and_slots+'</div></div>');
 
-                            $( "#modules_accordion, #modules_accordion_lvl_2" ).accordion( "refresh" );
+
+                            $("#modules_accordion").accordion("refresh");
+
+                            $('.modules_accordion_lvl_2.a-tmp-hidden').accordion({
+                                active: false,
+                                collapsible: true
+                            });
 
                             makeDroppableModulesDaySlots(".newly-created-module-slot");
 
-                            $('.a-tmp-hidden').removeClass('a-tmp-hidden');
+                            $('.module-header, .modules_accordion_lvl_2').removeClass('a-tmp-hidden');
+
+
+
                         }
                     }
                 }
@@ -451,22 +604,32 @@ $(document).on('keypress', '.new_module_code', function(e) {
 // delete element
 $(document).on('click', '.can-be-deleted .fa-times', function(e) {
 
-    e.stopPropagation();
-
+    if ($(this).parent().parent().hasClass('slot-container')) {
+        $(this).parent().remove();
+//console.log('removed connection');
+        setNumConnectionsOfLectures();
+        // HERE SHOULD BE SAVE FUNCTION CALL
+        return false;
+    }
     var _item_type = $(this).parent().data('type');
     var _id = '';
     var _current_obj = this;
+    var _current_parent = $(_current_obj).parent();
+    var _current_parent_next = $(_current_parent).next('.module-container');
+    var _urlremove = $(_current_obj).parents('.c_panel:first').data('urlremove');
+
     if (_item_type == 'lecture') {
         _id = $(this).parent().data('lectureid');
     }
 
     if (_item_type == 'module') {
-        _id = $(this).parent().data('moduleid');
+        _id = $(_current_obj).parent().data('moduleid');
+        $(_current_parent).remove();
+        $(_current_parent_next).remove();
     }
 
     if (_id != '') {
 
-        var _urlremove = $(this).parents('.c_panel:first').data('urlremove');
         _urlremove = _urlremove.replace('0', _id);
 
         $.ajax({
@@ -476,18 +639,18 @@ $(document).on('click', '.can-be-deleted .fa-times', function(e) {
             success: function (data) {
                 if (typeof data.success != 'undefined' && data.success != null && data.success != '') {
                     $(_current_obj).parents('.can-be-deleted:first').remove();
+
+                    if (_item_type == 'lecture') {
+                        $('div[data-lectureid="'+_id+'"]').remove();
+                    }
+
+                    $(_current_obj).parents('.can-be-deleted:first').next('.module-container').remove();
                 }
             }
         });
 
     }
 });
-
-
-
-
-
-
 
 
 

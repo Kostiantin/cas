@@ -57226,12 +57226,113 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('#delete_chosen').click(function (
   }
 });
 /********* CONNECTIONS PAGE SORTABLE ACCORDIONS ***********/
+// count connections of each lecture
 
-jquery__WEBPACK_IMPORTED_MODULE_0___default()('.drpbl.slot-container').sortable();
-jquery__WEBPACK_IMPORTED_MODULE_0___default()("#modules_accordion, #modules_accordion_lvl_2").accordion({
-  active: false,
-  collapsible: true
+function setNumConnectionsOfLectures() {
+  var chosen_lecture_id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  var selector = 'div[data-type="lecture"]';
+  var _decrease_num = 1;
+
+  if (chosen_lecture_id != '') {
+    _decrease_num = 2;
+  }
+
+  if (chosen_lecture_id != '') {
+    selector = 'div[data-lectureid="' + chosen_lecture_id + '"]';
+  }
+
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(selector).each(function () {
+    var lecture_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('lectureid'); //console.log($(this).text());
+
+    var current_lecture_counters = parseInt(jquery__WEBPACK_IMPORTED_MODULE_0___default()('div[data-lectureid="' + lecture_id + '"]').length) - _decrease_num; //console.log($('div[data-lectureid="'+lecture_id+'"]').length);
+
+
+    if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find('.amount-of-lectures').length > 0) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find('.amount-of-lectures').remove();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(' <span class="amount-of-lectures" title="' + jquery__WEBPACK_IMPORTED_MODULE_0___default()('#title_for_lecture_connections').text() + '"> <strong> (' + current_lecture_counters + ') </strong> </span> ').insertBefore(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find('.fa-times'));
+    } else {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(' <span class="amount-of-lectures" title="' + jquery__WEBPACK_IMPORTED_MODULE_0___default()('#title_for_lecture_connections').text() + '"> <strong> (' + current_lecture_counters + ') </strong> </span> ').insertBefore(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find('.fa-times'));
+    }
+  });
+}
+
+setNumConnectionsOfLectures();
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('.drpbl.slot-container').sortable({
+  revert: false,
+  start: function start(event, ui) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(ui.item).addClass('placed-in-sortable');
+  }
+}); // EDIT elements on the fly
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on('click', '.fa-pencil-square-o.edit-pencil', function (e) {
+  e.stopImmediatePropagation();
+  e.stopPropagation();
+
+  var _editable_content_text = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parents('.can-be-edited:first').find('.editable-content').hide().text();
+
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parents('.can-be-edited:first').find('.amount-of-lectures').hide();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parents('.can-be-edited:first').find('.edit-pencil').hide();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parents('.can-be-edited:first').append('<input type="text" class="new_editing_element" name="new_editing_element" value="' + _editable_content_text + '"/>');
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.new_editing_element').focus().blur(function () {
+    var _the_parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parents('.can-be-edited:first');
+
+    var _current_val = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
+
+    if (_current_val != '') {
+      var _create_url = jquery__WEBPACK_IMPORTED_MODULE_0___default()(_the_parent).data('urlstore');
+
+      var id = '';
+
+      var _item_type = jquery__WEBPACK_IMPORTED_MODULE_0___default()(_the_parent).data('type');
+
+      var _code = '';
+
+      if (_item_type == 'lecture') {
+        id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(_the_parent).data('lectureid');
+      }
+
+      if (_item_type == 'module') {
+        id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(_the_parent).data('moduleid');
+        _code = jquery__WEBPACK_IMPORTED_MODULE_0___default()(_the_parent).data('modulecode');
+      }
+
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.new_editing_element').remove();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+        url: _create_url,
+        method: 'POST',
+        data: {
+          'name': _current_val,
+          'id': id,
+          'code': _code
+        },
+        success: function success(data) {
+          if (typeof data.success != 'undefined' && data.success != null && data.success != '') {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()(_the_parent).find('.editable-content').text(_current_val).show();
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()(_the_parent).find('.amount-of-lectures').show();
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()(_the_parent).find('.edit-pencil').show();
+
+            if (_item_type == 'lecture') {
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('div[data-lectureid="' + id + '"]').find('.editable-content').text(_current_val);
+            }
+          }
+        }
+      }); // make newly added lecture draggable
+    }
+  });
 });
+jquery__WEBPACK_IMPORTED_MODULE_0___default()("#modules_accordion, .modules_accordion_lvl_2").accordion({
+  active: false,
+  collapsible: true,
+  beforeActivate: function beforeActivate(event, ui) {
+    var fromIcon = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.originalEvent.target).is('*:not(.fa-pencil-square-o.edit-pencil, .fa-times, .new_editing_element)');
+    return fromIcon;
+  }
+}); // small hook for keyboard hot keys disable for accordion
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ui.accordion.prototype._keydown = function (event) {// your new code for the "_keydown" function
+};
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('#modules_accordion h5').off('dblclick');
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#c_panel_modules').css({
   'visibility': 'visible'
 }); // drag and drop lectures in modules
@@ -57240,6 +57341,14 @@ function makeDraggableLectures(selector) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(selector).draggable({
     appendTo: "body",
     helper: "clone",
+    drag: function drag(event, ui) {
+      /*$('.ui-accordion-header').mouseover( function() {
+           // auto open accordion elements when drag and move over accordion
+          if ($(this).hasClass('ui-accordion-header-collapsed')) {
+              $(this).click();
+          }
+       });*/
+    },
     start: function start(event, ui) {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.ui-accordion-header').mouseover(function () {
         // auto open accordion elements when drag and move over accordion
@@ -57262,18 +57371,34 @@ function makeDroppableModulesDaySlots(selector) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(selector).droppable({
     accept: ".drg-elem-lecture",
     hoverClass: 'highlight-droppable',
+    tolerance: 'touch',
     drop: function drop(event, ui) {
       // change id and classes of ui elem
-      var _clone_ = jquery__WEBPACK_IMPORTED_MODULE_0___default()(ui.draggable).clone();
+      if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()(ui.draggable).hasClass('placed-in-sortable')) {
+        var _lecture_to_add_ = jquery__WEBPACK_IMPORTED_MODULE_0___default()(ui.draggable).clone().addClass('placed-in-sortable');
+      } else {
+        var _lecture_to_add_ = jquery__WEBPACK_IMPORTED_MODULE_0___default()(ui.draggable);
+      }
 
-      var _new_ui_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(_clone_).data('lectureid');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(_lecture_to_add_).find('.edit-pencil').remove();
+
+      var _new_ui_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(_lecture_to_add_).data('lectureid');
 
       var counter_of_existing_elms = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find('.drg-elem').length;
       var number_of_max_lectures_in_slot = parseInt(jquery__WEBPACK_IMPORTED_MODULE_0___default()('#max_amount_of_lectures_in_slot').data('max_amount_of_lectures_in_slot'));
 
       if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find('div[data-lectureid="' + _new_ui_id + '"]').length == 0 && counter_of_existing_elms < number_of_max_lectures_in_slot) {
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).append(_clone_);
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).sortable();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).append(_lecture_to_add_);
+
+        if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find('div[data-lectureid="' + _new_ui_id + '"]').length > 1) {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find('div[data-lectureid="' + _new_ui_id + '"]:nth-child(2)').remove();
+        }
+
+        if (selector != '.newly-created-module-slot') {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).sortable("refresh");
+        }
+
+        setNumConnectionsOfLectures(_new_ui_id);
       }
     }
   });
@@ -57308,7 +57433,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('.add-lecture').click(function () 
           }
 
           if (typeof data.id != 'undefined' && data.id != null && data.id != '') {
-            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#c_panel_lectures .dragging-parent').append('<div data-type="lecture" data-lectureid="' + data.id + '" class="drg-elem drg-elem-lecture newly-created-lecture can-be-deleted">' + _current_val + '<i class="fa fa-times" aria-hidden="true"></i></div>');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#c_panel_lectures .dragging-parent').append('<div data-type="lecture" data-lectureid="' + data.id + '" class="drg-elem drg-elem-lecture newly-created-lecture can-be-deleted can-be-edited" data-urlstore="' + jquery__WEBPACK_IMPORTED_MODULE_0___default()('#lecture_store_url').data('urlstore') + '"><span class="editable-content">' + _current_val + '</span><i class="fa fa-pencil-square-o edit-pencil" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i></div>');
             makeDraggableLectures('.newly-created-lecture');
           }
         }
@@ -57349,22 +57474,28 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('.add-module').click(function () {
 
           if (typeof data.id != 'undefined' && data.id != null && data.id != '') {
             var max_amount_of_module_days = parseInt(jquery__WEBPACK_IMPORTED_MODULE_0___default()('#max_amount_of_module_days').data('max_amount_of_module_days'));
-            var max_amount_of_lectures_in_slot = parseInt(jquery__WEBPACK_IMPORTED_MODULE_0___default()('#max_amount_of_lectures_in_slot').data('max_amount_of_lectures_in_slot'));
+            var max_amount_of_lecture_slots = parseInt(jquery__WEBPACK_IMPORTED_MODULE_0___default()('#max_amount_of_lecture_slots').data('max_amount_of_lecture_slots'));
             var _module_days_and_slots = '';
 
-            if (max_amount_of_module_days && max_amount_of_lectures_in_slot) {
+            if (max_amount_of_module_days && max_amount_of_lecture_slots) {
               for (var i = 1; i <= max_amount_of_module_days; i++) {
-                _module_days_and_slots += '<h6 >Day ' + i + '</h6><div class="acc_lvl_2_content day-container" id="day-container-' + data.id + '-' + i + '">';
+                _module_days_and_slots += '<h6 class="can-be-edited" data-urlstore="' + jquery__WEBPACK_IMPORTED_MODULE_0___default()('#day_store_url').data('urlstore') + '" data-dayid="' + i + '" data-type="day"><span class="editable-content">Day ' + i + '</span><i class="fa fa-pencil-square-o edit-pencil" aria-hidden="true"></i></h6><div class="acc_lvl_2_content day-container" id="day-container-' + data.id + '-' + i + '">';
 
-                for (var z = 1; z <= max_amount_of_lectures_in_slot; z++) {
+                for (var z = 1; z <= max_amount_of_lecture_slots; z++) {
                   _module_days_and_slots += '<small>Lecture Slot ' + z + '</small><div class="acc_lvl3_parent"><span class="droppable-area-text">Droppable Area</span><div class="acc_lvl_3_content drpbl drpbl-module slot-container newly-created-module-slot" id="slot-container-' + data.id + '-' + i + '-' + z + '"></div></div>';
                 }
+
+                _module_days_and_slots += '</div>';
               }
 
-              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#modules_accordion').append('<h5 class="module-header can-be-deleted a-tmp-hidden" data-moduleid="' + data.id + '" data-type="module">' + _current_name_val + '<i class="fa fa-times" aria-hidden="true"></i></h5><div class="acc_lvl_2 module-container" id="module-container-' + data.id + '"><div id="modules_accordion_lvl_2 a-tmp-hidden">' + _module_days_and_slots + '</div></div>');
-              jquery__WEBPACK_IMPORTED_MODULE_0___default()("#modules_accordion, #modules_accordion_lvl_2").accordion("refresh");
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#modules_accordion').append('<h5 class="module-header can-be-deleted can-be-edited a-tmp-hidden" data-urlstore="' + _create_url + '" data-moduleid="' + data.id + '" data-type="module" data-modulecode="' + data.code + '"><span class="editable-content" >' + _current_name_val + '</span><i class="fa fa-pencil-square-o edit-pencil" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i></h5><div class="acc_lvl_2 module-container" id="module-container-' + data.id + '"><div class="modules_accordion_lvl_2 a-tmp-hidden">' + _module_days_and_slots + '</div></div>');
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()("#modules_accordion").accordion("refresh");
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('.modules_accordion_lvl_2.a-tmp-hidden').accordion({
+                active: false,
+                collapsible: true
+              });
               makeDroppableModulesDaySlots(".newly-created-module-slot");
-              jquery__WEBPACK_IMPORTED_MODULE_0___default()('.a-tmp-hidden').removeClass('a-tmp-hidden');
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('.module-header, .modules_accordion_lvl_2').removeClass('a-tmp-hidden');
             }
           }
         }
@@ -57392,7 +57523,13 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on('keypress', '.new_mod
 }); // delete element
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on('click', '.can-be-deleted .fa-times', function (e) {
-  e.stopPropagation();
+  if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parent().parent().hasClass('slot-container')) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parent().remove(); //console.log('removed connection');
+
+    setNumConnectionsOfLectures(); // HERE SHOULD BE SAVE FUNCTION CALL
+
+    return false;
+  }
 
   var _item_type = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parent().data('type');
 
@@ -57400,17 +57537,23 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on('click', '.can-be-del
 
   var _current_obj = this;
 
+  var _current_parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(_current_obj).parent();
+
+  var _current_parent_next = jquery__WEBPACK_IMPORTED_MODULE_0___default()(_current_parent).next('.module-container');
+
+  var _urlremove = jquery__WEBPACK_IMPORTED_MODULE_0___default()(_current_obj).parents('.c_panel:first').data('urlremove');
+
   if (_item_type == 'lecture') {
     _id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parent().data('lectureid');
   }
 
   if (_item_type == 'module') {
-    _id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parent().data('moduleid');
+    _id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(_current_obj).parent().data('moduleid');
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(_current_parent).remove();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(_current_parent_next).remove();
   }
 
   if (_id != '') {
-    var _urlremove = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parents('.c_panel:first').data('urlremove');
-
     _urlremove = _urlremove.replace('0', _id);
     jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
       url: _urlremove,
@@ -57421,6 +57564,12 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on('click', '.can-be-del
       success: function success(data) {
         if (typeof data.success != 'undefined' && data.success != null && data.success != '') {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()(_current_obj).parents('.can-be-deleted:first').remove();
+
+          if (_item_type == 'lecture') {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('div[data-lectureid="' + _id + '"]').remove();
+          }
+
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()(_current_obj).parents('.can-be-deleted:first').next('.module-container').remove();
         }
       }
     });

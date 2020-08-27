@@ -161,8 +161,9 @@ nav.navbar.navbar-expand-md a, nav.navbar.navbar-expand-md a:hover,.navbar-expan
   margin-bottom: 10px;
 }
 .acc_lvl_2_content small {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: bold;
+  text-transform: uppercase;
 }
 .acc_lvl3_parent {
   position: relative;
@@ -170,12 +171,12 @@ nav.navbar.navbar-expand-md a, nav.navbar.navbar-expand-md a:hover,.navbar-expan
 .droppable-area-text {
   text-align: center;
   color: #999;
-  font-size: 10px;
-  text-transform: lowercase;
+  font-size: 9px;
+  text-transform: uppercase;
   display: block;
   padding-top: 0;
   position: absolute;
-  top: -1px;
+  top: 1px;
   right: 3px;
   z-index: 1;
 }
@@ -197,11 +198,13 @@ nav.navbar.navbar-expand-md a, nav.navbar.navbar-expand-md a:hover,.navbar-expan
 .drg-elem {
   border: 1px solid #c5c5c5;
   background-color: #e5f4e8;
-  padding: 2px 15px;
+  padding: 2px 45px 2px 15px;
   border-radius: 3px;
-  margin-bottom: 10px;
+  margin-bottom: 2px;
   white-space: nowrap;
   overflow: hidden;
+  min-width: 150px;
+  z-index: 5;
 }
 .drg-elem input {
   height: 22px;
@@ -270,11 +273,51 @@ input.new_module_code {
   font-size: 14px;
   color: #000;
   cursor: pointer;
+  z-index: 2;
+}
+.ui-accordion-header-active.can-be-deleted .fa-times {
+  color: #fff;
+}
+.drpbl-module .can-be-deleted .fa-times {
+  top: 3px;
 }
 .ui-accordion .module-header.ui-accordion-header {
   height: 29px;
   white-space: nowrap;
   padding: 6px 10px;
+  z-index: 1;
+}
+.drpbl-module .drg-elem {
+  width: 100%!important;
+  display: block;
+}
+.amount-of-lectures {
+  font-size: 11px;
+  position: relative;
+  bottom: 0px;
+  font-family: arial;
+}
+.invisible-elem {
+  display: none;
+}
+.fa-pencil-square-o.edit-pencil {
+  position: absolute;
+  right: 20px;
+  top: 6px;
+  cursor: pointer;
+}
+.can-be-edited {
+  position: relative;
+}
+h6[data-type="day"] .edit-pencil {
+  display: none;
+}
+#modules_accordion .new_editing_element {
+  position: relative;
+  bottom: 2px;
+  margin: 0;
+  height: 20px;
+  left: -4px;
 }
 @media (max-width: 480px) {
   #app {
