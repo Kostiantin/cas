@@ -319,6 +319,24 @@ h6[data-type="day"] .edit-pencil {
   height: 20px;
   left: -4px;
 }
+#c_panel_lectures {
+  position: fixed;
+  min-width: 350px;
+}
+.expand_all {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  color: #009688;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: arial;
+  text-transform: uppercase;
+}
+.expand_all:hover {
+  text-decoration: none;
+  color: #009688;
+}
 @media (max-width: 480px) {
   #app {
     min-height: initial;

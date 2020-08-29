@@ -8,7 +8,7 @@
         </div>
         <div class="col-xs-12 col-md-4">
             <div class="card c_panel" id="c_panel_modules" data-urlstore="{{ route('modules.store') }}" data-urlremove="{{ route('modules.destroy',0) }}">
-                <div class="card-header"><h4><strong>{{ __('Modules') }}</strong></h4></div>
+                <div class="card-header"><h4><strong>{{ __('Modules') }}</strong><a href="javascript:void(0);" class="expand_all">{{__('Expand All')}}</a></h4></div>
                 <div class="card-body">
 
                     <div id="modules_accordion">
@@ -89,6 +89,7 @@
                     <span class="invisible-elem" id="title_for_lecture_connections">{{__('Number of lecture connections to days slots')}}</span>
                     <span class="invisible-elem" id="day_store_url" data-urlstore="{{ route('days.store') }}"></span>
                     <span class="invisible-elem" id="lecture_store_url" data-urlstore="{{ route('lectures.store') }}"></span>
+                    <span class="invisible-elem" id="connections_store" data-urlstore="{{ route('connections.store') }}"></span>
                     <i title="{{ __('Add Module') }}" class="fa fa-plus add-module" aria-hidden="true"></i>
                 </div>
             </div>

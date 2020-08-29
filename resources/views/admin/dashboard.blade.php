@@ -5,10 +5,12 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">User Dashboard</div>
+                <div class="card-header">Admin Dashboard</div>
 
                 <div class="card-body">
-                    @if (session('status'))
+                    <p>Here will be the admin statistics about modules, lectures, courses etc,.</p>
+                    <p>Please go to <a href="{{route('connections.index')}}">Connections</a> page.</p>
+                   {{-- @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
@@ -16,7 +18,7 @@
 
                     @component('components.who')
 
-                    @endcomponent
+                    @endcomponent--}}
                 </div>
             </div>
         </div>

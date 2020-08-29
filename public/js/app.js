@@ -57226,7 +57226,61 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('#delete_chosen').click(function (
   }
 });
 /********* CONNECTIONS PAGE SORTABLE ACCORDIONS ***********/
-// count connections of each lecture
+// save connections of current module
+
+function saveModuleLectureConnections(elementObject) {
+  var _moduleContainer = jquery__WEBPACK_IMPORTED_MODULE_0___default()(elementObject).parents('.module-container:first');
+
+  console.log('elementObject');
+  console.log(elementObject);
+  var _objectToSend = {
+    "module_id": "",
+    "slotsLectures": []
+  };
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(_moduleContainer).find('.slot-container').each(function () {
+    var _slotObj = this;
+
+    var _slot_id_str = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).attr('id');
+
+    console.log('_slot_id_str');
+    console.log(_slot_id_str);
+
+    var _slotStrSplitToIdsArray = _slot_id_str.split('-');
+
+    var module_id = _slotStrSplitToIdsArray[2];
+    var day_number = _slotStrSplitToIdsArray[3];
+    var lecture_slot_number = _slotStrSplitToIdsArray[4];
+
+    if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(_slotObj).find('.drg-elem-lecture').length > 0) {
+      _objectToSend.module_id = module_id;
+      var slotLectureObj = {
+        "day_number": day_number,
+        "lecture_slot_number": lecture_slot_number,
+        "lecturesIds": []
+      };
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(_slotObj).find('.drg-elem-lecture').each(function () {
+        var lecture_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('lectureid');
+        slotLectureObj.lecturesIds.push(lecture_id);
+      });
+
+      _objectToSend.slotsLectures.push(slotLectureObj);
+    }
+  });
+
+  if (_objectToSend.slotsLectures.length > 0) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+      url: jquery__WEBPACK_IMPORTED_MODULE_0___default()('#connections_store').data('urlstore'),
+      method: 'POST',
+      data: _objectToSend,
+      success: function success(data) {
+        if (typeof data.success != 'undefined' && data.success != null && data.success != '') {
+          console.log(data);
+        }
+      }
+    });
+  }
+} // count connections of each lecture
+
 
 function setNumConnectionsOfLectures() {
   var chosen_lecture_id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
@@ -57261,6 +57315,9 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('.drpbl.slot-container').sortable(
   revert: false,
   start: function start(event, ui) {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(ui.item).addClass('placed-in-sortable');
+  },
+  stop: function stop(event, ui) {
+    saveModuleLectureConnections(ui.item);
   }
 }); // EDIT elements on the fly
 
@@ -57327,6 +57384,11 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()("#modules_accordion, .modules_acco
     var fromIcon = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.originalEvent.target).is('*:not(.fa-pencil-square-o.edit-pencil, .fa-times, .new_editing_element)');
     return fromIcon;
   }
+}); // expand all
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('.expand_all').click(function () {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#modules_accordion .ui-accordion-header:not(.ui-state-active)').addClass('ui-accordion-header-active ui-state-active').next().slideDown();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#modules_accordion .ui-accordion-header .ui-icon').removeClass('ui-icon-triangle-1-e').addClass('ui-icon-triangle-1-s');
 }); // small hook for keyboard hot keys disable for accordion
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ui.accordion.prototype._keydown = function (event) {// your new code for the "_keydown" function
@@ -57349,17 +57411,18 @@ function makeDraggableLectures(selector) {
           }
        });*/
     },
-    start: function start(event, ui) {
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.ui-accordion-header').mouseover(function () {
-        // auto open accordion elements when drag and move over accordion
-        if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).hasClass('ui-accordion-header-collapsed')) {
-          jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).click();
-        }
-      });
+    start: function start(event, ui) {// $('#modules_accordion, .modules_accordion_lvl_2').accordion( "option", "event", "mouseover dropover" );
+
+      /*$('.ui-accordion-header').mouseover( function() {
+           // auto open accordion elements when drag and move over accordion
+          if ($(this).hasClass('ui-accordion-header-collapsed')) {
+              $(this).click();
+          }
+       });*/
     },
-    stop: function stop(event, ui) {
-      // unset click on accord elem on mouseover
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.ui-accordion-header').unbind('mouseover');
+    stop: function stop(event, ui) {// unset click on accord elem on mouseover
+      //$('.ui-accordion-header').unbind('mouseover');
+      //$('#modules_accordion, .modules_accordion_lvl_2').accordion( "option", "event", "click" );
     }
   });
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(selector).removeClass('newly-created-lecture');
@@ -57399,6 +57462,7 @@ function makeDroppableModulesDaySlots(selector) {
         }
 
         setNumConnectionsOfLectures(_new_ui_id);
+        saveModuleLectureConnections(_lecture_to_add_);
       }
     }
   });
@@ -57492,7 +57556,11 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('.add-module').click(function () {
               jquery__WEBPACK_IMPORTED_MODULE_0___default()("#modules_accordion").accordion("refresh");
               jquery__WEBPACK_IMPORTED_MODULE_0___default()('.modules_accordion_lvl_2.a-tmp-hidden').accordion({
                 active: false,
-                collapsible: true
+                collapsible: true,
+                beforeActivate: function beforeActivate(event, ui) {
+                  var fromIcon = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.originalEvent.target).is('*:not(.fa-pencil-square-o.edit-pencil, .fa-times, .new_editing_element)');
+                  return fromIcon;
+                }
               });
               makeDroppableModulesDaySlots(".newly-created-module-slot");
               jquery__WEBPACK_IMPORTED_MODULE_0___default()('.module-header, .modules_accordion_lvl_2').removeClass('a-tmp-hidden');
@@ -57524,10 +57592,11 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on('keypress', '.new_mod
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on('click', '.can-be-deleted .fa-times', function (e) {
   if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parent().parent().hasClass('slot-container')) {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parent().remove(); //console.log('removed connection');
+    var _slot_container_of_lecture = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parent().parent();
 
-    setNumConnectionsOfLectures(); // HERE SHOULD BE SAVE FUNCTION CALL
-
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parent().remove();
+    setNumConnectionsOfLectures();
+    saveModuleLectureConnections(_slot_container_of_lecture);
     return false;
   }
 

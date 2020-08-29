@@ -58,6 +58,7 @@ Route::prefix('admin')->group(function() {
 
     // connections
     Route::get('/connections', 'ConnectionController@index')->name('connections.index');
+    Route::post('/connections/store_connections', 'ConnectionController@storeConnections')->name('connections.store');
 
 });
 
