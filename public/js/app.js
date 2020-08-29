@@ -57230,9 +57230,10 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('#delete_chosen').click(function (
 
 function saveModuleLectureConnections(elementObject) {
   var _moduleContainer = jquery__WEBPACK_IMPORTED_MODULE_0___default()(elementObject).parents('.module-container:first');
+  /*console.log('elementObject');
+  console.log(elementObject);*/
 
-  console.log('elementObject');
-  console.log(elementObject);
+
   var _objectToSend = {
     "module_id": "",
     "slotsLectures": []
